@@ -1,0 +1,1 @@
+/usr/bin/cc  -g -Wall   CMakeFiles/rotate.dir/src/rotate.c.o  -o rotate -rdynamic 
