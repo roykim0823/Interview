@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <new>
+#include <memory> 	// unique_ptr
 
 namespace mySTL {
 /**
@@ -22,10 +23,10 @@ namespace mySTL {
 template<typename T>
 class Vector {
 protected:
-	T *a;  	// pointer to array
+	std::unique_ptr<T[]> a;  	// pointer to array
 	
-	size_t m_length; 	  	// the vector size
-	size_t m_size;   		// the array size (available space size)
+	std::size_t m_length; 	  	// the vector size
+	std::size_t m_size;   		// the array size (available space size)
 	void resize();
 	void swap(int i, int j) {
 		T x = a[i];
@@ -44,17 +45,14 @@ public:
 	void fill(T x);
 	// Assign Operator Overloading
 	Vector<T>& operator=(Vector<T> &b) { 
-		if (a != NULL) 
-			delete[] a; 
-		a = b.a;
-		b.a = NULL;
-		m_length 	= b.m_length;
-		m_size 		= b.m_size;
+		this->a = std::move(b.a);
+		this->m_length 	= b.m_length;
+		this->m_size 	= b.m_size;
 		return *this;
 	}
 
 	// Index Operator Overloading 
-	T& operator[](size_t i) {
+	T& operator[](std::size_t i) {
 		assert(i >= 0 && i < m_size);  	// also in swap()
 		/* Throwing an exception
 		if(i<0 || i>=length) 
@@ -88,7 +86,8 @@ template<class T>
 Vector<T>::Vector() {
 	m_length=0;
 	m_size=1;
-	a = new T[1];
+	//a = new T[1];
+	a = std::make_unique<T[]>(1);
 }
 
 // Constructor with a length
@@ -96,7 +95,8 @@ template<class T>
 Vector<T>::Vector(int len) {
     m_length=0;
 	m_size=len;
-	a = new T[m_size];
+	//a = new T[m_size];
+	a = std::make_unique<T[]>(m_size);
 }
 
 // Constructor with a length and initial value
@@ -104,7 +104,8 @@ template<class T>
 Vector<T>::Vector(int len, T init) {
 	m_length=len;
 	m_size=len;
-	a = new T[len];
+	//a = new T[len];
+	a(new T[m_size]);
 	for (int i = 0; i < len; i++)
 		a[i] = init;
 }
@@ -112,7 +113,7 @@ Vector<T>::Vector(int len, T init) {
 // Default Destructor 
 template<class T>
 Vector<T>::~Vector() {
-	if (a != NULL) delete[] a;
+	//if (a != NULL) delete[] a;
 }
 
 template<class T>
@@ -122,20 +123,24 @@ void Vector<T>::reserve(int n) {
 	if(a == NULL) { // empty vector
    		m_length=0;
    		m_size=n;
-   		a = new T[n];
+   		//a = new T[n];
+		a = std::make_unique<T[]>(m_size);
    	} else {        	// if a has content 
-		T *b;
-   		b=new T[n];
-   		for(int i=0; i<n; i++)
-   			b[i] = a[i];
-		delete []a;
-        a=b;
+		std::unique_ptr<T> b(new T[n]);
+   		//b=new T[n];
+
+   		//for(int i=0; i<n; i++)
+   		//	b[i] = a[i];
+		//delete []a;
+		std::copy(&a[0], &a[m_length], &b[0]);
+        //a=b;
+		a=std::move(b);
    	}
 }
 
 template<class T>
 void Vector<T>::reverse() {
-	for (size_t i = 0; i < m_length/2; i++) {
+	for (std::size_t i = 0; i < m_length/2; i++) {
 		swap(i, m_length-i-1);
 	}
 }
@@ -143,7 +148,7 @@ void Vector<T>::reverse() {
 template<class T>
 void Vector<T>::copyOfRange(Vector<T> &a0, Vector<T> &a, int i, int j) {
 	Vector<T> b(j-i);
-	std::copy(a.a+i, a.a+j, b.a);
+	std::copy(&(a.a[i]), &(a.a[j]), &(b.a[0]));
 	a0 = b;
 }
 
@@ -165,14 +170,18 @@ void Vector<T>::resize() {
     int resize=2*m_length;
 	if(resize==0)	// if m_length==0, maybe not necessary since the min size of array is 1
 		resize=1;
-
 	//T *b = new T[resize];
-	Vector<T>  b(resize);
+	//std::unique_ptr<T[]> b(new T[resize]);
+	Vector<T> b(resize);
 	// Faster array copy
-	std::copy(a+0, a+m_length, &b[0]);
+	std::copy(&a[0], &a[m_length], &b[0]);
 	//for(int i=0; i<m_length; i++)
 	//	b[i] = a[i];
-	b.m_length=m_length;
+	
+	//delete []a;
+	//a=b;
+	b.m_length = m_length;
+	//a=std::move(b);
 	*this=b;
 }
 		
@@ -192,7 +201,8 @@ void Vector<T>::pop_back2() {	// remove an item at the last index and resize()
 template<class T>
 void Vector<T>::insert(size_t i, T x) {
 	if(m_length+1 > m_size) resize();
-	std::copy_backward(a+i, a+m_length, a+m_length+1);	// faster than below for-loop
+	//std::copy_backward(a+i, a+m_length, a+m_length+1);	// faster than below for-loop
+	std::copy_backward(&a[i], &a[m_length], &a[m_length+1]);	// faster than below for-loop
 	/*
 	for (int j=n; j>i; j--) 
 		a[j] = a[j-1];
@@ -204,7 +214,7 @@ void Vector<T>::insert(size_t i, T x) {
 template<class T>
 void Vector<T>::remove(size_t i) {
 	assert(i >= 0 && i < m_length);  	
-	std::copy(a+i+1, a+m_length, a+i);
+	std::copy(&a[i+1], &a[m_length], &a[i]);
 	/*
 	for (int j=i; j<n-1; j++) 
 		a[j] = a[j+1];
@@ -217,9 +227,10 @@ template<class T>
 void Vector<T>::clear() {	// remove all items
 	m_length=0;
 	m_size=1;
-	T *b = new T[1];
-	delete []a;
-	a=b;
+	//T *b = new T[1];
+	std::unique_ptr<T[]> b(new T[1]);
+	//delete []a;
+	a=std::move(b);
 }
 } /* namespace ods */
 #endif /* ARRAY_H_ */

@@ -1,130 +1,79 @@
 /*
  * Deque.h
  *
- *  Created on: 2011-11-23
  *      Author: morin
  */
 
-#ifndef VECTOR
-#define VECTOR
-#include <vector>
+#ifndef DEQUE_H_
+#define DEQUE_H_
+#include "Vector.h"
 
 namespace mySTL {
-using std::vector; 
 
-template<class T>
-class Deque {	// ArrayDeque with two ArrayStacks
+template<typename T>
+class Deque {	
 protected:
-	vector<T> front; 	// reverse
-	vector<T> back;
-	void balance();
-public:
-	Deque() {};
-	virtual ~Deque() {};
-	bool empty() { return this->size()==0; }
-	int size();
-	T get(int i);
-	void set(int i, T x);
-	void push_front(T x) 	{ front.push_back(x);  }
-	void push_back(T x) 	{ back.push_back(x);   }
-	void pop_front();
-	void pop_back(); 
-	virtual void clear();
+	Vector<T> vec; 	// vector for circular array
+	size_t j;		// starting index of circular array
+    size_t n;		// The length of circular array
+	void resize();
+	T max(T a, T b) { return ((a)>(b) ? (a) : (b)); }
 
-	// Index Operator Overloading
-	T& operator[](int i) {
-		assert(i>=0 && i <this->size());
-		if(i<front.size()) 
-			return front[front.size()-1-i];
-		else
-			return back[i-front.size()];
-	}
+public:
+	Deque() : vec(1) { j=n=0; }	// vec(1), vec's size is 1
+	~Deque() {}
+	void push_front(T x);  		// push_front
+	void push_back(T x);  		// push_back
+	void pop_front();        	// pop_front
+	void pop_back();        	// pop_back
+	T front()	{ return vec[j]; }
+	T back()    { return vec[(j+n-1)%vec.size()]; }
+	size_t size() { return n; }
+	void clear() { vec.clear(); j=n=0;}
 };
 
-template<class T> inline
-T Deque<T>::get(int i) { 	// Dequq[i]
-	if (i < front.size()) {
-		return front[front.size()-1-i];
-	} else {
-		return back[i-front.size()];
-	}
+template<typename T>
+void Deque<T>::resize() {
+	Vector<T> tmp(max(1, 2*n));
+	// Copy vec to tmp
+	for(size_t k=0; k<n; k++) 
+		tmp.push_back(vec[(j+k)%vec.size()]);
+	vec=tmp;	// Vector support assignment operator
+	j=0;
 }
 
-template<class T> inline
-void Deque<T>::set(int i, T x) {
-	if (i < front.size()) 
-		front[front.size()-1-i]=x;
-	else
-		back[i-front.size()]=x;
+template<typename T>
+void Deque<T>::push_front(T x) {
+	if(n+1 > vec.size()) resize();
+//	cout << j << " " << n << " " << vec.size() << endl; 
+	if(j+n==0) j=0;	// if the vector is empty
+	else if(j==0) j=vec.size()-1;	// if j=0 but the n>0
+	else j=j-1;
+	vec[j] = x;
+	n++;
 }
 
-template<class T>
-int Deque<T>::size() {
-	return front.size() + back.size();
+template<typename T>
+void Deque<T>::push_back(T x) {
+	if(n+1 > vec.size()) resize();
+//	cout << j << " " << n << " " << vec.size() << endl; 
+	vec[(j+n) % vec.size()] = x;
+	n++;
 }
 
-template<class T>
+template<typename T>
 void Deque<T>::pop_front() {
-	assert(this->size()>0);
-	if(front.empty()==false)
-		front.pop_back();
-	else if(back.size()==1)	// only one item
-		back.pop_back();
-	else {
-		// move back item to front
-		balance();
-		front.pop_back();
-	}
+	j = (j+1) % vec.size();	// increasing the starting index
+	n--;
+	if(vec.size() >= 3*n) resize();
 }
 
-
-template<class T>
+template<typename T>
 void Deque<T>::pop_back() {
-	assert(this->size()>0);
-	if(back.empty()==false)
-		back.pop_back();
-	else if(front.size()==1)	// only one item
-		front.pop_back();
-	else {
-		// move back item to front
-		balance();
-		back.pop_back();
-	}
-}
-
-template<class T>
-void Deque<T>::balance() { 	// make balace on pop_front() or pop_back()
-	if(front.size()==0) // pop_front (front.size()==0 and back.size()>1) 
-	{
-		int back_size=back.size();
-		int n=back_size/2;  	// number of moving items
-		front.resize(n);
-		for(int i=0; i<n; i++)
-			front[n-1-i] = back[i];
-		//typename vector<T>::iterator begin=back.begin();
-		//typename vector<T>::iterator end=back.end();
-		//vector<T> temp(begin+n, end);
-		vector<T> temp(back.begin()+n, back.end());
-		back=temp;
-	} else { 			// pop_back (back.size()==0 and fron.size()>1)
-		int front_size=front.size();
-		int n=front_size/2;  	// number of moving items
-		back.resize(n);
-		for(int i=0; i<n; i++)
-			back[i] = front[n-1-i];
-		//typename vector<T>::iterator begin=front.begin();
-		//typename vector<T>::iterator end=front.end();
-		//vector<T> temp(begin+n, end);
-		vector<T> temp(front.begin()+n, front.end());
-		front=temp;
-	}
-}
-		
-template<class T>
-void Deque<T>::clear() {
-	front.clear();
-	back.clear();
+	//j = (j+1) % vec.size();	// increasing the starting index
+	n--;                        // decreasing the ending index
+	if(vec.size() >= 3*n) resize();
 }
 
 } /* namespace ods */
-#endif /* DUALARRAYDEQUE_H_ */
+#endif /* DEQUE_H_ */

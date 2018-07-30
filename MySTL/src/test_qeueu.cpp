@@ -1,5 +1,5 @@
 /*
- * main.cpp
+ * test_queue.cpp
  *
  *  Created on: 2011-11-23
  *      Author: morin
@@ -24,7 +24,8 @@ void print(T& x)
 
 int main(int argc, char **argv)
 {
-	int n = 20, i;
+	size_t n = 100000;
+	size_t i;
 
 
 	srand(0);
@@ -35,17 +36,15 @@ int main(int argc, char **argv)
 	cout << "Test Queue::push() " << endl;;
 	for(i=0; i<n; i++) {
 		as.push(i);
-		print(as);
+		assert(as.front()==0);
+		assert(as.back()==(int)i);
 	}
-	for(i=0; i<n; i++)
-		assert(as[i]==n-1-i);
-	cout << "-> PASS" << endl;
 	
-	cout << "Test Queue::pop_back() " << endl;;
+	cout << "Test Queue::pop() " << endl;;
 	for(i=0; i<n; i++)     {
+		assert(as.front()==(int)i);
 		as.pop();
 		assert(as.size()==n-1-i);
-		print(as);
 	}
 	cout << "-> PASS" << endl;
 }

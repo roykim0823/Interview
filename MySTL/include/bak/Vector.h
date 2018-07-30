@@ -24,8 +24,8 @@ class Vector {
 protected:
 	T *a;  	// pointer to array
 	
-	size_t m_length; 	  	// the vector size
-	size_t m_size;   		// the array size (available space size)
+	int m_length; 	  	// the vector size
+	int m_size;   		// the array size (available space size)
 	void resize();
 	void swap(int i, int j) {
 		T x = a[i];
@@ -48,14 +48,14 @@ public:
 			delete[] a; 
 		a = b.a;
 		b.a = NULL;
-		m_length 	= b.m_length;
-		m_size 		= b.m_size;
+		m_length = b.m_length;
+		m_size = b.m_size;
 		return *this;
 	}
 
 	// Index Operator Overloading 
-	T& operator[](size_t i) {
-		assert(i >= 0 && i < m_size);  	// also in swap()
+	T& operator[](int i) {
+		assert(i >= 0 && i < m_length);  	// also in swap()
 		/* Throwing an exception
 		if(i<0 || i>=length) 
 			throw std::out_of_range("Out of range in array at class array &operator []");
@@ -68,8 +68,8 @@ public:
 	}
 
     bool empty() { return m_length==0; }
-	size_t length() { return m_length; }	
-	size_t size() { return m_size; }		
+	int length() { return m_length; }	
+	int size() { return m_size; }		
 
 	static void copyOfRange(Vector<T> &a0, Vector<T> &a, int i, int j);
 	virtual void reverse();
@@ -77,8 +77,8 @@ public:
 	void push_back(T x);
 	void pop_back();
 	void pop_back2(); 	// pop_back() with resize()
-	void insert(size_t i, T x);	// insert at index i
-	void remove(size_t i);			// delete at index i
+	void insert(int i, T x);	// insert at index i
+	void remove(int i);			// delete at index i
 	void clear();
 
 };
@@ -135,7 +135,7 @@ void Vector<T>::reserve(int n) {
 
 template<class T>
 void Vector<T>::reverse() {
-	for (size_t i = 0; i < m_length/2; i++) {
+	for (int i = 0; i < m_length/2; i++) {
 		swap(i, m_length-i-1);
 	}
 }
@@ -143,7 +143,7 @@ void Vector<T>::reverse() {
 template<class T>
 void Vector<T>::copyOfRange(Vector<T> &a0, Vector<T> &a, int i, int j) {
 	Vector<T> b(j-i);
-	std::copy(a.a+i, a.a+j, b.a);
+	std::copy(a.a, a.a+j-i, b.a);
 	a0 = b;
 }
 
@@ -165,15 +165,13 @@ void Vector<T>::resize() {
     int resize=2*m_length;
 	if(resize==0)	// if m_length==0, maybe not necessary since the min size of array is 1
 		resize=1;
-
-	//T *b = new T[resize];
-	Vector<T>  b(resize);
+	T *b = new T[resize];
 	// Faster array copy
-	std::copy(a+0, a+m_length, &b[0]);
+	std::copy(a+0, a+m_length, b+0);
 	//for(int i=0; i<m_length; i++)
 	//	b[i] = a[i];
-	b.m_length=m_length;
-	*this=b;
+	delete []a;
+	a=b;
 }
 		
 template<class T>
@@ -190,7 +188,7 @@ void Vector<T>::pop_back2() {	// remove an item at the last index and resize()
 }
 
 template<class T>
-void Vector<T>::insert(size_t i, T x) {
+void Vector<T>::insert(int i, T x) {
 	if(m_length+1 > m_size) resize();
 	std::copy_backward(a+i, a+m_length, a+m_length+1);	// faster than below for-loop
 	/*
@@ -202,7 +200,7 @@ void Vector<T>::insert(size_t i, T x) {
 }
 
 template<class T>
-void Vector<T>::remove(size_t i) {
+void Vector<T>::remove(int i) {
 	assert(i >= 0 && i < m_length);  	
 	std::copy(a+i+1, a+m_length, a+i);
 	/*
