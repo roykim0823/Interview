@@ -23,7 +23,7 @@ namespace mySTL {
 template<typename T>
 class Vector {
 protected:
-	std::unique_ptr<T[]> a;  	// pointer to array
+	std::unique_ptr<T []> a;  	// pointer to array
 	
 	std::size_t m_length; 	  	// the vector size
 	std::size_t m_size;   		// the array size (available space size)
@@ -87,7 +87,7 @@ Vector<T>::Vector() {
 	m_length=0;
 	m_size=1;
 	//a = new T[1];
-	a = std::make_unique<T[]>(1);
+	a = std::make_unique<T []>(1);
 }
 
 // Constructor with a length
@@ -96,7 +96,7 @@ Vector<T>::Vector(int len) {
     m_length=0;
 	m_size=len;
 	//a = new T[m_size];
-	a = std::make_unique<T[]>(m_size);
+	a = std::make_unique<T []>(m_size);
 }
 
 // Constructor with a length and initial value
@@ -113,6 +113,7 @@ Vector<T>::Vector(int len, T init) {
 // Default Destructor 
 template<class T>
 Vector<T>::~Vector() {
+	cout << "delete " << x << endl;
 	//if (a != NULL) delete[] a;
 }
 
@@ -124,7 +125,7 @@ void Vector<T>::reserve(int n) {
    		m_length=0;
    		m_size=n;
    		//a = new T[n];
-		a = std::make_unique<T[]>(m_size);
+		a = std::make_unique<T []>(m_size);
    	} else {        	// if a has content 
 		std::unique_ptr<T> b(new T[n]);
    		//b=new T[n];
@@ -171,7 +172,7 @@ void Vector<T>::resize() {
 	if(resize==0)	// if m_length==0, maybe not necessary since the min size of array is 1
 		resize=1;
 	//T *b = new T[resize];
-	//std::unique_ptr<T[]> b(new T[resize]);
+	//std::unique_ptr<T []> b(new T[resize]);
 	Vector<T> b(resize);
 	// Faster array copy
 	std::copy(&a[0], &a[m_length], &b[0]);
@@ -228,7 +229,7 @@ void Vector<T>::clear() {	// remove all items
 	m_length=0;
 	m_size=1;
 	//T *b = new T[1];
-	std::unique_ptr<T[]> b(new T[1]);
+	std::unique_ptr<T []> b(new T[1]);
 	//delete []a;
 	a=std::move(b);
 }

@@ -11,8 +11,8 @@
 #include <iostream>
 using namespace std;
 
-#include "Vector.h"
-//#include "Vector2.h"
+//#include "Vector.h"
+#include "Vector_unique_ptr.h"
 using namespace mySTL;
 
 int main(int argc, char **argv)
@@ -66,5 +66,6 @@ int main(int argc, char **argv)
 	}
 	for(i=0; i<n; i++)
 		assert(as[i]==(int)i);
+    return 0;
 }
 

@@ -18,6 +18,9 @@ protected:
 	public:
 		T x;
 		std::shared_ptr<Node> prev, next;	// two pointers
+		~Node() {
+			cout << "delete " << x << endl;
+		}
 	};
 	std::shared_ptr<Node> dummy;	// acts as a placeholder (no head and tail required)
 	//Node dummy;	// acts as a placeholder (no head and tail required)
@@ -95,11 +98,12 @@ void DLList<T>::clear() {
 	//Node *u = dummy.next;
 	std::shared_ptr<Node> u = dummy->next;
 	while (u != dummy) {
-		std::shared_ptr<Node> w = u->next;
+		//std::shared_ptr<Node> w = u->next;
 		//delete u;
-		u->prev=nullptr;
-		u->next=nullptr;
-		u = w;
+		//u->prev=nullptr; 	// not necessary
+		//u->next=nullptr;  // not necessary
+		//u = w;	// this assignment deletes the node
+		u = u->next;
 	}
 	n = 0;
 }

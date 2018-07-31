@@ -20,6 +20,9 @@ protected:
 			x = x0; 	// rev from: x=0
 			next = nullptr;
 		}
+		~Node() {
+			cout << "delete " << x << endl;
+		}
 	};
 	// For efficiency, SLList uses head and tail to keep track of the first and the last node
 	std::shared_ptr<Node> head; 	// Head node
