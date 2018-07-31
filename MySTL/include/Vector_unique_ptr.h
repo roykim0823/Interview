@@ -113,7 +113,6 @@ Vector<T>::Vector(int len, T init) {
 // Default Destructor 
 template<class T>
 Vector<T>::~Vector() {
-	cout << "delete " << x << endl;
 	//if (a != NULL) delete[] a;
 }
 
@@ -183,7 +182,7 @@ void Vector<T>::resize() {
 	//a=b;
 	b.m_length = m_length;
 	//a=std::move(b);
-	*this=b;
+	*this=b; 	// destructor called
 }
 		
 template<class T>

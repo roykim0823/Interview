@@ -17,7 +17,7 @@ using namespace mySTL;
 
 int main(int argc, char **argv)
 {
-	size_t n = 20, i;
+	size_t n = 100000, i;
 
 	srand(0);
 

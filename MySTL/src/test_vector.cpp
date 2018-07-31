@@ -19,7 +19,6 @@ int main(int argc, char **argv)
 {
 	size_t n = 100000, i;
 
-
 	srand(0);
 
 	cout << endl << "Vector<int>:" << endl;

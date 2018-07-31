@@ -19,7 +19,7 @@ protected:
 		T x;
 		std::shared_ptr<Node> prev, next;	// two pointers
 		~Node() {
-			cout << "delete " << x << endl;
+			//cout << "delete " << x << endl;
 		}
 	};
 	std::shared_ptr<Node> dummy;	// acts as a placeholder (no head and tail required)

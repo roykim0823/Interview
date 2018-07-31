@@ -21,7 +21,7 @@ protected:
 			next = nullptr;
 		}
 		~Node() {
-			cout << "delete " << x << endl;
+			//cout << "delete " << x << endl;
 		}
 	};
 	// For efficiency, SLList uses head and tail to keep track of the first and the last node
