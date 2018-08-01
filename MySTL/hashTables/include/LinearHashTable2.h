@@ -20,6 +20,7 @@ class LinearHashTable {
 protected:
 	typedef std::vector<T*> hashTable;
 	hashTable table;
+	T* deleted;	// to identify a deleted node
 	long n;	// number of element
 	int d;
 	int z;	// an odd random number for hash code
@@ -76,7 +77,7 @@ void LinearHashTable<T>::resize() {
 	//print(table);
 	// Re-hashing with larger hashTable
 	for (size_t i=0; i<table.size(); i++) {
-		if(table[i] != nullptr) {
+		if(table[i] != nullptr && table[i] != deleted) {
 			size_t idx = hash(*table[i]);
 			idx = probe(newTable, idx);
 			//while(newTable[idx] != nullptr)
@@ -99,6 +100,7 @@ LinearHashTable<T>::LinearHashTable() {
 	n = 0;	
 	d = 10; // 1M entries (default)
 	z = rand() | 1;     // is a random odd integer
+	deleted = new T(0);
 	table.resize(1 << d, nullptr);
 }
 
@@ -106,6 +108,7 @@ LinearHashTable<T>::LinearHashTable() {
 
 template<class T>
 LinearHashTable<T>::~LinearHashTable() {
+	delete deleted;
 }
 
 // Add takes a constant time without resizing
@@ -118,7 +121,10 @@ bool LinearHashTable<T>::add(T x) {
 		resize();
 	}	
 	size_t idx = hash(x);
-	idx = probe(table, idx);
+	while(table[idx] != nullptr && table[idx] != deleted) {
+			idx = ( idx == table.size()-1 ) ? 0 : idx+1;	// idx++
+	}
+
 	table[idx]=new T(x);
 	n++;
 	return true;
@@ -133,7 +139,7 @@ bool LinearHashTable<T>::remove(T x) {
 		return false;
 	
 	delete table[idx];
-	table[idx]=nullptr;
+	table[idx]=deleted; 	// differentiate the deleted node from nullptr
 	n--;
 ///*
     if( n*8 < (1<<d)  && d>10) {
@@ -148,18 +154,15 @@ template<class T>
 int LinearHashTable<T>::find(T x) {
 	size_t idx = hash(x);
 	assert(idx < table.size());
-	size_t iter=0;
+	//size_t iter=0;
 	//while(table[idx] != nullptr && iter<=table.size()) {
-	while(iter<table.size()) {   	// worst case is linear search
-		if(table[idx] != nullptr) {
-			T y = *table[idx];
-			if(x == y) {
-				//cout << iter << " " << idx << " " << x << " !!"<< endl;
-				return idx;
-			}
+	// nullptr means that there was no data access in the entry -> no further search required!!!
+	while(table[idx] != nullptr) {   	// worst case is linear search but nullptr is search limiter
+		if(table[idx] != deleted && *table[idx]==x) {
+			//cout << iter << " " << idx << " " << x << " !!"<< endl;
+			return idx;
 		}
 		idx = (idx == table.size()-1) ? 0 : idx+1;
-		iter++;
 	}
 	//cout << iter << " " << idx << " " << x << endl;
 	return -1;

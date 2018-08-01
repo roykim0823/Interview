@@ -12,17 +12,8 @@
 #include <iostream>
 using namespace std;
 
-#include "ArrayDeque.h"
-
 #include "BinaryTree.h"
-#include "BinarySearchTree.h"
-//#include "Treap.h"
-//#include "ScapegoatTree.h"
-//#include "RedBlackTree.h"
-//#include "BTree.h"
-//#include "BinaryHeap.h"
-
-//#include "BinaryTrie.h"
+//#include "BinarySearchTree.h"
 
 using namespace ods;
 
@@ -103,23 +94,23 @@ int main(int argc, char **argv)
 
 	{
 		cout << endl << "BinaryTree:" << endl;
-		BinaryTree<BTNode1> t;
+		BinaryTree< BTNode<int> > t;
 		btTests(t);
 	}
 
 
 	{
-		cout << endl << "BinarySearchTree<int>:" << endl;
-		BinarySearchTree1<int> t;
-		btTests(t);
-		ssetTests(t, n, 0x0);
+//		cout << endl << "BinarySearchTree<int>:" << endl;
+//		BinarySearchTree1<int> t;
+//		btTests(t);
+//		ssetTests(t, n, 0x0);
 	}
 
 
 
 	{
-		BinarySearchTree<BSTNode1<int>,int> s;
-		ssetTests(s, n, 0x0);
+//		BinarySearchTree<BSTNode1<int>,int> s;
+//		ssetTests(s, n, 0x0);
 	}
 
 	return 0;

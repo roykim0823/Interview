@@ -37,7 +37,8 @@ public:
 	virtual ~ChainedHashTable();
 	bool add(T x);
 	bool remove(T x);
-	bool find(T x);
+	//bool find(T x);
+	int find(T x);
 	int size() {
 		return n;
 	}
@@ -81,7 +82,7 @@ ChainedHashTable<T>::~ChainedHashTable() {
 // Add takes a constant time without resizing
 template<class T>
 bool ChainedHashTable<T>::add(T x) {
-	if (find(x)) return false;	// if it is already added, then return false
+	if (find(x)!=-1) return false;	// if it is already added, then return false
 	if (n > ( 1<< (d+1) ) && d<30) {	// n is larger than hashTable size x 2
 		d++;
 		resize();
@@ -113,12 +114,15 @@ bool ChainedHashTable<T>::remove(T x) {
 
 
 template<class T>
-bool ChainedHashTable<T>::find(T x) {
+//bool ChainedHashTable<T>::find(T x) {
+int ChainedHashTable<T>::find(T x) {
 	int idx = hash(x);
 	for (size_t i = 0; i < table[idx].size(); i++)
 		if (x == table[idx][i])
-			return true;
-	return false;
+	//		return true;
+			return i;
+	//return false;
+	return -1;
 }
 
 

@@ -68,7 +68,7 @@ void usetTests(USet &us, int n) {
 	for (int i = 0; i < n; i++) {
 		assert(us.find(i)!=-1);
 		assert(us.remove(i)==true);
-  //  	assert(us.find(i)==-1); 	// worst case O(n)
+    	assert(us.find(i)==-1); 	// worst case O(n)
   //  	cout << "remove: " << i << " size: " << us.size() << endl;
 	}
 	stop = clock();
@@ -87,15 +87,15 @@ void usetTests(USet &us, int n) {
 
 int main(int argc, char **argv)
 {
-	int n = 1000000;
+	int n = 10000000;
 //	int n = 100000;
 
 	srand(0);
 
 	{
-//		cout << endl << "ChainedHashTable<int>:" << endl;
-//		mySTL::ChainedHashTable<int> t;
-//		usetTests(t, n);
+		cout << endl << "ChainedHashTable<int>:" << endl;
+		mySTL::ChainedHashTable<int> t;
+		usetTests(t, n);
 	}
 
 	{
