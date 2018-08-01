@@ -10,12 +10,11 @@
 #include <cstdlib>
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #include "ChainedHashTable.h"
-#include "LinearHashTable.h"
-
-using namespace ods;
+#include "LinearHashTable2.h"
 
 #ifndef CLOCKS_PER_SEC
 #define CLOCKS_PER_SEC 1000
@@ -28,8 +27,15 @@ void usetTests(USet &us, int n) {
 	cout << "Adding " << n << " elements...";
 	cout.flush();
 	start = clock();
+	vector<int> data;
+
+	// Add 
 	for (int i = 0; i < n; i++) {
-		us.add(rand() % (2*n));
+		//int input = rand() % (2*n);
+		//if(us.add(input))
+		us.add(i);
+		//	data.push_back(input);
+
 	}
 	stop = clock();
 	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
@@ -38,22 +44,32 @@ void usetTests(USet &us, int n) {
 	cout.flush();
 	start = clock();
 	int success = 0;
+
+	// Find
 	for (int i = 0; i < n; i++) {
-		int z = rand() % (2*n);
-		int y = us.find(z);
-		if (y == z) success++;
-		if (i % 300000 == 0) {
-			cout << "[" << z << "=>" << y << "]";
-		}
+//		cout << "find: " << i << " size: " << us.size() << endl;
+		assert(us.find(i)!=-1);
 	}
 	stop = clock();
-	cout << "done [" << success << "/" << n << " (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
+	//cout << "done [" << success << "/" << n << " (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
+	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
+ //   cout << "NOT Finding " << n << " elements...";
+ 	/*
+	for (int i = 0; i < n; i++) { 	
+		assert(us.find(i+n)==-1);  	// worst case O(n)
+	}
+	*/
 
 	cout << "Removing " << n << " elements...";
 	cout.flush();
 	start = clock();
+
+	// Remove
 	for (int i = 0; i < n; i++) {
-		us.remove(rand() % (2*n));
+		assert(us.find(i)!=-1);
+		assert(us.remove(i)==true);
+  //  	assert(us.find(i)==-1); 	// worst case O(n)
+  //  	cout << "remove: " << i << " size: " << us.size() << endl;
 	}
 	stop = clock();
 	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
@@ -72,18 +88,19 @@ void usetTests(USet &us, int n) {
 int main(int argc, char **argv)
 {
 	int n = 1000000;
+//	int n = 100000;
 
 	srand(0);
 
 	{
-		cout << endl << "ChainedHashTable<int>:" << endl;
-		ChainedHashTable<int> t;
-		usetTests(t, n);
+//		cout << endl << "ChainedHashTable<int>:" << endl;
+//		mySTL::ChainedHashTable<int> t;
+//		usetTests(t, n);
 	}
 
 	{
 		cout << endl << "LinearHashTable<int>:" << endl;
-		LinearHashTable<int> t(INT_MIN, INT_MIN+1);
+		mySTL::LinearHashTable<int> t;
 		usetTests(t, n);
 	}
 	return 0;

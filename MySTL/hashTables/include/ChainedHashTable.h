@@ -9,27 +9,26 @@
 #define CHAINEDHASHTABLE_H_
 #include <climits>
 #include "utils.h"
-#include "array.h"
-#include "ArrayStack.h"
+#include <vector>
 
-namespace ods {
+namespace mySTL {
 
 template<class T>
 class ChainedHashTable {
 protected:
-	typedef ArrayStack<T> List;
-	T null;
-
-	array<List> t;
-	int n;
-
+	typedef std::vector<T> chain;
+	typedef std::vector<chain> hashTable;
+	hashTable table;
+	long n;	// number of element
 	int d;
-	int z;
+	int z;	// an odd random number for hash code
 	static const int w = 32; //sizeof(int)*8;
+	
 	void allocTable(int m);
 	void resize();
 	int hash(T x) {
 		// Multiplicative hashing (based on modular arithmetic)
+		// hash(x) = ( (z*x) mod 2^w) div 2^(w-d) )
 		return ((unsigned)(z * hashCode(x))) >> (w-d);  	// z is odd number
 	}
 
@@ -37,8 +36,8 @@ public:
 	ChainedHashTable();
 	virtual ~ChainedHashTable();
 	bool add(T x);
-	T remove(T x);
-	T find(T x);
+	bool remove(T x);
+	bool find(T x);
 	int size() {
 		return n;
 	}
@@ -50,37 +49,27 @@ public:
  */
 template<class T>
 void ChainedHashTable<T>::resize() {
-	d = 1;
-	while (1<<d <= n) d++;
-    n = 0;
-	array<List> newTable(1<<d);
-	for (int i = 0; i < t.length; i++) {
-		for (int j = 0; j < t[i].size(); j++) {
-			T x = t[i].get(j);
-			newTable[hash(x)].add(x);
+	hashTable newTable;
+	newTable.resize(1<<d);
+	std::cout << "resize hashTable to " << (1<<d) << std::endl;
+
+	// Re-hashing with larger hashTable
+	for (size_t i=0; i<table.size(); i++) {
+		for(size_t j=0; j < table[i].size(); j++) {
+			T x = table[i][j];
+			newTable[hash(x)].push_back(x);
 		}
 	}
-	t = newTable;
-}
 
-/*
-template<>
-ChainedHashTable<int>::ChainedHashTable() : t(2)
-{
-	n = 0;
-	d = 1;
-	null = INT_MIN;
-	z = rand() | 1;     // is a random odd integer
+	table = newTable;	// replace the hashTable
 }
-*/
-
 
 template<class T>
-ChainedHashTable<T>::ChainedHashTable() : t(2) {
-	n = 0;
-	d = 1;
-	null = INT_MIN;
+ChainedHashTable<T>::ChainedHashTable() {
+	n = 0;	
+	d = 10; // 1K entries (default)
 	z = rand() | 1;     // is a random odd integer
+	table.resize(1 << d);
 }
 
 
@@ -92,46 +81,55 @@ ChainedHashTable<T>::~ChainedHashTable() {
 // Add takes a constant time without resizing
 template<class T>
 bool ChainedHashTable<T>::add(T x) {
-	if (find(x) != null) return false;
-	if (n+1 > t.length) resize();
-	t[hash(x)].add(x);
+	if (find(x)) return false;	// if it is already added, then return false
+	if (n > ( 1<< (d+1) ) && d<30) {	// n is larger than hashTable size x 2
+		d++;
+		resize();
+	}	
+	table[hash(x)].push_back(x);
 	n++;
 	return true;
 }
 
 // O(n * hash(x)) time
 template<class T>
-T ChainedHashTable<T>::remove(T x) {
-	int j = hash(x);
+bool ChainedHashTable<T>::remove(T x) {
+	int idx = hash(x);
 	// iterate over the list
-	for (int i = 0; i < t[j].size(); i++) {
-		T y = t[j].get(i);
+	for (size_t i = 0; i < table[idx].size(); i++) {
+		T y = table[idx][i];
 		if (x == y) {
-			t[j].remove(i);
+			table[idx].erase(table[idx].begin()+i);	// remove i th element
 			n--;
-			return y;
+			if( n < (1<<(d-1) )  && d > 10) {
+				d--;
+				resize();
+			}
+			return true;
 		}
 	}
-	return null;
+	return false;
 }
 
 
 template<class T>
-T ChainedHashTable<T>::find(T x) {
-	int j = hash(x);
-	for (int i = 0; i < t[j].size(); i++)
-		if (x == t[j].get(i))
-			return t[j].get(i);
-	return null;
+bool ChainedHashTable<T>::find(T x) {
+	int idx = hash(x);
+	for (size_t i = 0; i < table[idx].size(); i++)
+		if (x == table[idx][i])
+			return true;
+	return false;
 }
 
 
 template<class T>
 void ChainedHashTable<T>::clear() {
 	n = 0;
-	d = 1;
-	array<List> b(2);
-	t = b;
+	d = 10;
+	z = rand() | 1;     // is a random odd integer
+	hashTable newTable;
+	newTable.resize(1<<d);
+	table = newTable;
 }
 
 } /* namespace ods */
