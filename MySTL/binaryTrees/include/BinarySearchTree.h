@@ -9,87 +9,42 @@
 #define BINARYSEARCHTREE_H_
 #include <climits>
 #include <cmath>
-#include "BinaryTree.h"
 #include "utils.h"
+#include "BinaryTree.h"
 
-namespace ods {
+namespace mySTL {
 
-template<class Node, class T>
-class BSTNode : public BTNode<Node> {
-public:
-	T x;
-};
-
-/**
- * A binary search tree class.  The Node parameter should be a subclass
- * of BSTNode<T> (or match it's interface)
- */
-template<class Node, class T>
-class BinarySearchTree : public BinaryTree<Node> {
+template<typename T>
+class BinarySearchTree : public BinaryTree<T> {
 protected:
-	using BinaryTree<Node>::r;
-	using BinaryTree<Node>::nil;
+	using BinaryTree<T>::root;
+	//using BinaryTree<T>::clear();
 	int n;
-	T null;
-	virtual Node *findLast(T x);
-	virtual bool addChild(Node *p, Node *u);
-	virtual void splice(Node *u);
-	virtual void remove(Node *u);
-	virtual void rotateRight(Node *u);
-	virtual void rotateLeft(Node *u);
-	virtual bool add(Node *u);
+	virtual BTNode<T> *findLast(T x);
+	virtual bool addChild(BTNode<T> *p, BTNode<T> *u);
+	virtual void splice(BTNode<T> *u);
+	virtual void remove(BTNode<T> *u);
+	virtual void rotateRight(BTNode<T> *u);
+	virtual void rotateLeft(BTNode<T> *u);
+	virtual bool add(BTNode<T> *u);
 public:
-	BinarySearchTree();
-	BinarySearchTree(T null);
+	BinarySearchTree(): n(0) {}
 	virtual ~BinarySearchTree();
 	virtual bool add(T x);
 	virtual bool remove(T x);
 	virtual T find(T x);
-	virtual T findEQ(T x);
+	virtual bool findEQ(T x);
 	virtual int size();
 	virtual void clear();
 };
 
-template<class T>
-class BSTNode1 : public BSTNode<BSTNode1<T>, T> { };
-
-template<class T>
-class BinarySearchTree1 : public BinarySearchTree<BSTNode1<T>, T> {
-public:
-	BinarySearchTree1();
-};
-
-
-/*
- * FIXME: Why doesn't this work?
-template<class Node>
-BinarySearchTree<Node,int>::BinarySearchTree()  {
-	this->null = INT_MIN;
-	n = 0;
-}
-*/
-
-template<class Node, class T>
-BinarySearchTree<Node,T>::BinarySearchTree() {
-	this->null = (T)NULL;  // won't work for non-primitive types
-	n = 0;
-}
-
-
-template<class Node, class T>
-BinarySearchTree<Node,T>::BinarySearchTree(T null) {
-	this->null = null;
-	n = 0;
-}
-
-template<class Node, class T>
-Node* BinarySearchTree<Node,T>::findLast(T x) {
-	Node *w = r, *prev = nil;
-	while (w != nil) {
+template<typename T>
+BTNode<T>* BinarySearchTree<T>::findLast(T x) {
+	BTNode<T> *w = root, *prev = nullptr;
+	while (w != nullptr) {
 		prev = w;
-		int comp = compare(x, w->x);
-		if (comp < 0) {
-			w = w->left;
+		int comp = compare(x, w->data);
+		if (comp < 0) { w = w->left;
 		} else if (comp > 0) {
 			w = w->right;
 		} else {
@@ -99,51 +54,51 @@ Node* BinarySearchTree<Node,T>::findLast(T x) {
 	return prev;
 }
 
-template<class Node, class T>
-T BinarySearchTree<Node,T>::findEQ(T x) {
-	Node *w = r;
-	while (w != nil) {
-		int comp = compare(x, w->x);
+template<typename T>
+bool BinarySearchTree<T>::findEQ(T x) {
+	BTNode<T> *w = root;
+	while (w != nullptr) {
+		int comp = compare(x, w->data);
 		if (comp < 0) {
 			w = w->left;
 		} else if (comp > 0) {
 			w = w->right;
 		} else {
-			return w->x;
+			return true;
 		}
 	}
-	return null;
+	return false;
 }
 
 // Return the smallest value of the tree that is greater than or equal to x
-template<class Node, class T>
-T BinarySearchTree<Node,T>::find(T x) {
-	Node *w = r, *z = nil;
-	while (w != nil) {
-		int comp = compare(x, w->x);
+template<typename T>
+T BinarySearchTree<T>::find(T x) {
+	BTNode<T> *w = root, *z = nullptr;
+	while (w != nullptr) {
+		int comp = compare(x, w->data);
 		if (comp < 0) {
-			z = w;		// x < w->x, then return w->x that is smallest, but greater than x
+			z = w;		// x < w->data, then return w->data that is smallest, but greater than x
 			w = w->left;
 		} else if (comp > 0) {
 			w = w->right;
 		} else {
-			return w->x;
+			return w->data;
 		}
 	}
-	return z == nil ? null : z->x;
+	return z == nullptr ? T() : z->data;
 }
 
-template<class Node, class T>
-BinarySearchTree<Node,T>::~BinarySearchTree() {
+template<typename T>
+BinarySearchTree<T>::~BinarySearchTree() {
 	// nothing to do - BinaryTree destructor does cleanup
 }
 
-template<class Node, class T>
-bool BinarySearchTree<Node, T>::addChild(Node *p, Node *u) {
-		if (p == nil) {
-			r = u;              // inserting into empty tree
+template<typename T>
+bool BinarySearchTree<T>::addChild(BTNode<T> *p, BTNode<T> *u) {
+		if (p == nullptr) {
+			root = u;              // inserting into empty tree
 		} else {
-			int comp = compare(u->x, p->x);
+			int comp = compare(u->data, p->data);
 			if (comp < 0) {
 				p->left = u;
 			} else if (comp > 0) {
@@ -157,33 +112,33 @@ bool BinarySearchTree<Node, T>::addChild(Node *p, Node *u) {
 		return true;
 }
 
-template<class Node, class T>
-bool BinarySearchTree<Node, T>::add(T x) {
-	Node *p = findLast(x);
-	Node *u = new Node;
-	u->x = x;
+template<typename T>
+bool BinarySearchTree<T>::add(T x) {
+	BTNode<T> *p = findLast(x);
+	BTNode<T> *u = new BTNode<T>;
+	u->data = x;
 	return addChild(p, u);
 }
 
-template<class Node, class T>
-bool BinarySearchTree<Node, T>::add(Node *u) {
-	Node *p = findLast(u->x);
+template<typename T>
+bool BinarySearchTree<T>::add(BTNode<T> *u) {
+	BTNode<T> *p = findLast(u->data);
 	return addChild(p, u);
 }
 
-template<class Node, class T>
-void BinarySearchTree<Node, T>::splice(Node *u) {
-	Node *s, *p;
+template<typename T>
+void BinarySearchTree< T>::splice(BTNode<T> *u) {
+	BTNode<T> *s, *p;
 	// s is the node's child
-	if (u->left != nil) {
+	if (u->left != nullptr) {
 		s = u->left;
 	} else {
 		s = u->right;
 	}
 
-	if (u == r) { 	// If u is the root.
-		r = s;
-		p = nil;
+	if (u == root) { 	// If u is the root.
+		root = s;
+		p = nullptr;
 	} else {
 		p = u->parent;
 		// if u is a left, then s is null
@@ -194,7 +149,7 @@ void BinarySearchTree<Node, T>::splice(Node *u) {
 		}
 	}
 	// connect s->parent to its parent.
-	if (s != nil) {	// if a node is not null node?       		 
+	if (s != nullptr) {	// if a node is not null node?       		 
 		s->parent = p;
 	}
 	n--;
@@ -204,47 +159,48 @@ void BinarySearchTree<Node, T>::splice(Node *u) {
 // 1. If u is a leaf, then we can just detach u from its parent.
 // 2. If u has only one child, then we can splice u from the tree by having u.parent adopt u's child
 // 3. If u has two children. Replace the node from its right child's smallest decedent. 
-template<class Node, class T>
-void BinarySearchTree<Node, T>::remove(Node *u) {
-	if (u->left == nil || u->right == nil) { 	// Case 1 or 2
+template<typename T>
+void BinarySearchTree<T>::remove(BTNode<T> *u) {
+	if (u->left == nullptr || u->right == nullptr) { 	// Case 1 or 2
 		splice(u);
 		delete u;
 	} else {  // Case 3
-		Node *w = u->right;
-		while (w->left != nil)	// search its right child's smallest decedent
+		BTNode<T> *w = u->right;
+		while (w->left != nullptr)	// search its right child's smallest decedent
 			w = w->left;
-		u->x = w->x;
+		u->data = w->data;
 		splice(w);
 		delete w;
 	}
 }
 
-template<class Node, class T>
-bool BinarySearchTree<Node, T>::remove(T x) {
-	Node *u = findLast(x);
-	if (u != nil && compare(x, u->x) == 0) {
+template<typename T>
+bool BinarySearchTree<T>::remove(T x) {
+	BTNode<T> *u = findLast(x);
+	if (u != nullptr && compare(x, u->data) == 0) {
 		remove(u);
 		return true;
 	}
 	return false;
 }
 
-template<class Node, class T> inline
-int BinarySearchTree<Node, T>::size() {
+template<typename T> inline
+int BinarySearchTree<T>::size() {
 	return n;
+	//return BinaryTree<T>::size2();
 }
 
-template<class Node, class T> inline
-void BinarySearchTree<Node, T>::clear() {
-	BinaryTree<Node>::clear();
+template<typename T> inline
+void BinarySearchTree<T>::clear() {
+	BinaryTree<T>::clear();
 	n = 0;
 }
 
-template<class Node, class T>
-void BinarySearchTree<Node, T>::rotateLeft(Node *u) {
-	Node *w = u->right;
+template<typename T>
+void BinarySearchTree<T>::rotateLeft(BTNode<T> *u) {
+	BTNode<T> *w = u->right;
 	w->parent = u->parent;
-	if (w->parent != nil) {
+	if (w->parent != nullptr) {
 		if (w->parent->left == u) {
 			w->parent->left = w;
 		} else {
@@ -252,19 +208,19 @@ void BinarySearchTree<Node, T>::rotateLeft(Node *u) {
 		}
 	}
 	u->right = w->left;
-	if (u->right != nil) {
+	if (u->right != nullptr) {
 		u->right->parent = u;
 	}
 	u->parent = w;
 	w->left = u;
-	if (u == r) { r = w; r->parent = nil; }
+	if (u == root) { root = w; root->parent = nullptr; }
 }
 
-template<class Node, class T>
-void BinarySearchTree<Node, T>::rotateRight(Node *u) {
-	Node *w = u->left;
+template<typename T>
+void BinarySearchTree<T>::rotateRight(BTNode<T> *u) {
+	BTNode<T> *w = u->left;
 	w->parent = u->parent;
-	if (w->parent != nil) {
+	if (w->parent != nullptr) {
 		if (w->parent->left == u) {
 			w->parent->left = w;
 		} else {
@@ -272,26 +228,13 @@ void BinarySearchTree<Node, T>::rotateRight(Node *u) {
 		}
 	}
 	u->left = w->right;
-	if (u->left != nil) {
+	if (u->left != nullptr) {
 		u->left->parent = u;
 	}
 	u->parent = w;
 	w->right = u;
-	if (u == r) { r = w; r->parent = nil; }
+	if (u == root) { root = w; root->parent = nullptr; }
 }
-
-
-
-/*
-template<class T>
-BinarySearchTree1<T*>::BinarySearchTree1() : BinarySearchTree<BSTNode1<T*>, T*>(NULL) {
-}
-*/
-
-template<class T>
-BinarySearchTree1<T>::BinarySearchTree1()  {
-}
-
 
 } /* namespace ods */
 #endif /* BINARYSEARCHTREE_H_ */

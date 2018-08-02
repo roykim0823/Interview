@@ -10,12 +10,13 @@
 #include <cstdlib>
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #include "BinaryTree.h"
-//#include "BinarySearchTree.h"
+#include "BinarySearchTree.h"
 
-using namespace ods;
+using namespace mySTL;
 
 #ifndef CLOCKS_PER_SEC
 #define CLOCKS_PER_SEC 1000
@@ -40,8 +41,12 @@ void ssetTests(SSet &ss, int n, unsigned flags) {
 	cout << "Adding " << n << " elements...";
 	cout.flush();
 	start = clock();
+
+	vector<int> data;
 	for (int i = 0; i < n; i++) {
-		ss.add(rand());
+		int t = rand();
+		ss.add(t);
+		data.push_back(t);
 	}
 	stop = clock();
 	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
@@ -66,11 +71,13 @@ void ssetTests(SSet &ss, int n, unsigned flags) {
 //	stop = clock();
 //	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
 
-	cout << "Removing " << n << " elements...";
+//	cout << "Removing " << n << " elements...";
+	cout << "Removing " << ss.size() << " elements...";
 	cout.flush();
 	start = clock();
 	for (int i = 0; i < n; i++) {
-		ss.remove(rand());
+		//ss.remove(rand());
+		ss.remove(data[i]);
 	}
 	stop = clock();
 	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
@@ -88,22 +95,16 @@ void ssetTests(SSet &ss, int n, unsigned flags) {
 int main(int argc, char **argv)
 {
 	int n = 1000000;
+//	int n = 10000;
 
 	srand(0);
 
 
 	{
-		cout << endl << "BinaryTree:" << endl;
-		BinaryTree< BTNode<int> > t;
+		cout << endl << "BinarySearchTree<int>:" << endl;
+		BinarySearchTree<int> t;
 		btTests(t);
-	}
-
-
-	{
-//		cout << endl << "BinarySearchTree<int>:" << endl;
-//		BinarySearchTree1<int> t;
-//		btTests(t);
-//		ssetTests(t, n, 0x0);
+		ssetTests(t, n, 0x0);
 	}
 
 

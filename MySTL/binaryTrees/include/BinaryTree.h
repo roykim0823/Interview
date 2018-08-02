@@ -14,74 +14,83 @@
 #include <new>
 #include <memory>
 
-namespace ods {
+namespace mySTL {
 
 // Binary Tree Node
-template<class N>
-class BTNode {
-public:
-	N *left;
-	N *right;
-	N *parent;	// for iterative version of traverse or size
-				// without the parent field, list or stack is used to
-				// keep track of the path from the current node to the root
+template<typename T>
+struct BTNode {
+	T data;
+	BTNode *left;
+	BTNode *right;
+	BTNode *parent;    	// for iterative version of traverse or size                
+                       	// without the parent field, list or stack is used to       
+						// keep track of the path from the current node to the root 
 	BTNode() {
+		data = T();
+		left = right = parent = nullptr;
+	}
+
+	BTNode(T x) {
+		data = x;
 		left = right = parent = nullptr;
 	}
 };
-
-
-template<class Node>
+		
+template<typename T>
 class BinaryTree {
 protected:
-	Node *root;    // root node
-	virtual int size(Node *u);
-	virtual int height(Node *u);
-	virtual void traverse(Node *u);
+	BTNode<T> *root;	
+	virtual int size(BTNode<T> *u);     	// from a node
+	virtual int height(BTNode<T> *u);      	// from a node
+	virtual void traverse(BTNode<T> *u);   	// from a node
 public:
 	BinaryTree(): root(nullptr) {}
 	virtual ~BinaryTree();
-	virtual void clear();
-	virtual int depth(Node *u);
-	virtual int size();
-	virtual int size2();
-	virtual int height();
-	virtual void traverse();
-	virtual void traverse2();
+	virtual int depth(BTNode<T> *u);
+	virtual int size() 		{ return size(root); }	
+	virtual int height()    { return height(root); }
+	virtual void traverse() { return traverse(root); }
+	virtual int size2();    	// iterative version
+	virtual void traverse2();  	// iterative version
 	virtual void bfTraverse();
+	virtual void clear();
 };
 
 
-template<class Node>
-BinaryTree<Node>::~BinaryTree() {
+template<typename T>
+BinaryTree<T>::~BinaryTree() {
 	clear();
 }
 
-template<class Node>
-void BinaryTree<Node>::clear() {
-	Node *u = root, *prev = nullptr, *next;
+template<typename T>
+void BinaryTree<T>::clear() {      
+	BTNode<T> *u = root, *prev = nullptr, *next = nullptr;
+
 	while (u != nullptr) {
 		if (prev == u->parent) {
 			if (u->left != nullptr) next = u->left;
 			else if (u->right != nullptr) next = u->right;
-			else next = u->parent;
-		} else if (prev == u->left) {
+			else next = u->parent; 	// left
+		} else if (prev == u->left) { 	// try to move left to right
 			if (u->right != nullptr) next = u->right;
-			else next = u->parent;
-		} else {
+			else next = u->parent; 	// leaf
+		} else { 	// prev == u->right
+			// visit all children (already removed) -> leaf
 			next = u->parent;
 		}
 		prev = u;
-		if (next == u->parent)
+		if (next == u->parent)	// leaf
+		{	
 			delete u;
+		}
 		u = next;
 	}
 	root = nullptr;
 }
 
 // Depth of a node
-template<class Node>
-int BinaryTree<Node>::depth(Node *u) {
+template<typename T>
+int BinaryTree<T>::depth(BTNode<T> *u) {
 	int d = 0;
 	while (u != root) {
 		u = u->parent;
@@ -90,79 +99,36 @@ int BinaryTree<Node>::depth(Node *u) {
 	return d;
 }
 
-// The size of the tree
-template<class Node>
-int BinaryTree<Node>::size() {
-	return size(root);
-}
-
 // a size of a node, the number of nodes (Recursive)
-template<class Node>
-int BinaryTree<Node>::size(Node *u) {
+template<typename T>
+int BinaryTree<T>::size(BTNode<T> *u) {
 	if (u == nullptr) return 0;
 	return 1 + size(u->left) + size(u->right);
 }
 
-// Size the tree (Iterative) -> Prevent stack overflow
-// Left, Right, Parent
-template<class Node>
-int BinaryTree<Node>::size2() {
-		Node *u = root, *prev = nullptr, *next;
-		int n = 0;
-		while (u != nullptr) {
-			if (prev == u->parent) {	// if we arrive at a node u from u.parent,
-				n++;	// count a node when it arrives from the parent node
-				if (u->left != nullptr) next = u->left;			// first, tries to visit u.left
-				else if (u->right != nullptr) next = u->right;	// second, tries to visit u.right
-				else next = u->parent;                      // finally, move back to u.parent
-			} else if (prev == u->left) { // if we arrive at a node u from u.left,
-				if (u->right != nullptr) next = u->right;		// first, tries to visit u.right
-				else next = u->parent;                      // finally, move back to u.parent
-			} else {                   // if we arrives at a node from u.right
-				next = u->parent;                     		// move back to u.parent
-			}
-			prev = u;
-			u = next;
-		}
-		return n;
-	}
-
-
-// The height of the tree
-template<class Node>
-int BinaryTree<Node>::height() {
-	return height(root);
-}
-
 // a height of a node (Recursive)
-template<class Node>
-int BinaryTree<Node>::height(Node *u) {
+template<typename T>
+int BinaryTree<T>::height(BTNode<T> *u) {
 	if (u == nullptr) return -1;
 	return 1 + max(height(u->left), height(u->right));
 }
 
-// Traverse the tree
-template<class Node>
-void BinaryTree<Node>::traverse() {
-	traverse(root);
-}
-
 // Traverse from a node (Recursive)
-template<class Node>
-void BinaryTree<Node>::traverse(Node *u) {
-		if (u == nullptr) return;
-		// cout << u->x << " "; 	// print values in preorder
-		traverse(u->left);
-		// cout << u->x << " "; 	// print values in inorder
-		traverse(u->right);
-		// cout << u->x << " "; 	// print values in postorder
+template<typename T>
+void BinaryTree<T>::traverse(BTNode<T> *u) {
+	if (u == nullptr) return;
+	// cout << u->data << " "; 	// print values in preorder
+	traverse(u->left);
+	// cout << u->data << " "; 	// print values in inorder
+	traverse(u->right);
+	// cout << u->data << " "; 	// print values in postorder
 }
 
 // Traverse the tree (Iterative) -> Prevent stack overflow
 // Left, Right, Parent: Post-Order
-template<class Node>
-void BinaryTree<Node>::traverse2() {
-	Node *u = root, *prev = nullptr, *next;
+template<typename T>
+void BinaryTree<T>::traverse2() {
+	BTNode<T> *u = root, *prev = nullptr, *next = nullptr;
 	while (u != nullptr) {
 		if (prev == u->parent) {
 			if (u->left != nullptr) next = u->left;
@@ -179,13 +145,38 @@ void BinaryTree<Node>::traverse2() {
 	}
 }
 
+
+// Size the tree (Iterative): same as tranverse2() except for counting "n"
+// Left, Right, Parent
+template<typename T>
+int BinaryTree<T>::size2() {
+	BTNode<T> *u = root, *prev = nullptr, *next = nullptr;
+   	int n = 0;
+   	while (u != nullptr) {
+   		if (prev == u->parent) {	// if we arrive at a node u from u.parent,
+   			n++;	// count a node when it arrives from the parent node at the first time!
+   			if (u->left != nullptr) next = u->left;			// first, tries to visit u.left
+   			else if (u->right != nullptr) next = u->right;	// second, tries to visit u.right
+   			else next = u->parent;                      // finally, move back to u.parent
+   		} else if (prev == u->left) { // if we arrive at a node u from u.left,
+   			if (u->right != nullptr) next = u->right;		// first, tries to visit u.right
+   			else next = u->parent;                      // finally, move back to u.parent
+   		} else {                   // if we arrives at a node from u.right, visit all children
+   			next = u->parent;                     		// move back to u.parent 
+   		} 
+   		prev = u; u = next; 
+   	}
+   	return n;
+}
+
+
 // Breadth-first Traversal
-template<class Node>
-void BinaryTree<Node>::bfTraverse() {
-	std::vector<Node*> q;
+template<typename T>
+void BinaryTree<T>::bfTraverse() {
+	std::vector<BTNode<T>*> q;
 	if (root != nullptr) q.push_back(root);	// q.size() is just a parameter 
 	while (q.size() > 0) {
-		Node *u = q[q.size()-1];
+		BTNode<T> *u = q[q.size()-1];
 		if (u->left != nullptr) q.push_back(u->left);
 		if (u->right != nullptr) q.push_back(u->right);
 	}
