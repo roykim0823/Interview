@@ -29,47 +29,28 @@ protected:
 	virtual bool add(BTNode<T> *u);
 public:
 	BinarySearchTree(): n(0) {}
-	virtual ~BinarySearchTree();
+	virtual ~BinarySearchTree() {}
 	virtual bool add(T x);
 	virtual bool remove(T x);
-	virtual T find(T x);
-	virtual bool findEQ(T x);
+	//virtual T find(T x);
+	virtual bool find(T x);
 	virtual int size();
 	virtual void clear();
 };
 
 template<typename T>
-BTNode<T>* BinarySearchTree<T>::findLast(T x) {
-	BTNode<T> *w = root, *prev = nullptr;
-	while (w != nullptr) {
-		prev = w;
-		int comp = compare(x, w->data);
-		if (comp < 0) { w = w->left;
-		} else if (comp > 0) {
-			w = w->right;
-		} else {
-			return w;
-		}
-	}
-	return prev;
-}
-
-template<typename T>
-bool BinarySearchTree<T>::findEQ(T x) {
+bool BinarySearchTree<T>::find(T x) { 	// findEQ 
 	BTNode<T> *w = root;
 	while (w != nullptr) {
 		int comp = compare(x, w->data);
-		if (comp < 0) {
-			w = w->left;
-		} else if (comp > 0) {
-			w = w->right;
-		} else {
-			return true;
-		}
+		if 		(comp < 0) { w = w->left; 	} 
+		else if (comp > 0) { w = w->right; 	} 
+		else 			   { return true;	}
 	}
 	return false;
 }
 
+/*
 // Return the smallest value of the tree that is greater than or equal to x
 template<typename T>
 T BinarySearchTree<T>::find(T x) {
@@ -80,6 +61,7 @@ T BinarySearchTree<T>::find(T x) {
 			z = w;		// x < w->data, then return w->data that is smallest, but greater than x
 			w = w->left;
 		} else if (comp > 0) {
+			//z = w;		// x > w->data, then return w->data that is largest, but less than x
 			w = w->right;
 		} else {
 			return w->data;
@@ -87,34 +69,14 @@ T BinarySearchTree<T>::find(T x) {
 	}
 	return z == nullptr ? T() : z->data;
 }
+*/
 
-template<typename T>
-BinarySearchTree<T>::~BinarySearchTree() {
-	// nothing to do - BinaryTree destructor does cleanup
-}
-
-template<typename T>
-bool BinarySearchTree<T>::addChild(BTNode<T> *p, BTNode<T> *u) {
-		if (p == nullptr) {
-			root = u;              // inserting into empty tree
-		} else {
-			int comp = compare(u->data, p->data);
-			if (comp < 0) {
-				p->left = u;
-			} else if (comp > 0) {
-				p->right = u;
-			} else {
-				return false;   // u.x is already in the tree
-			}
-			u->parent = p;
-		}
-		n++;
-		return true;
-}
-
+// -----------------------------------------------------------------------------
+// Addition
+// -----------------------------------------------------------------------------
 template<typename T>
 bool BinarySearchTree<T>::add(T x) {
-	BTNode<T> *p = findLast(x);
+	BTNode<T> *p = findLast(x); 	// a parent of the new node
 	BTNode<T> *u = new BTNode<T>;
 	u->data = x;
 	return addChild(p, u);
@@ -127,29 +89,62 @@ bool BinarySearchTree<T>::add(BTNode<T> *u) {
 }
 
 template<typename T>
-void BinarySearchTree< T>::splice(BTNode<T> *u) {
+BTNode<T>* BinarySearchTree<T>::findLast(T x) {
+	BTNode<T> *w = root, *prev = nullptr;
+	while (w != nullptr) {
+		prev = w;	// keep track of the previous node
+		int comp = compare(x, w->data);
+		if 		(comp < 0) 	{ w = w->left; 	}	 
+		else if (comp > 0) 	{ w = w->right;	} 
+		else 				{ return w;		}	
+	}
+	return prev;
+}
+
+template<typename T>
+bool BinarySearchTree<T>::addChild(BTNode<T> *p, BTNode<T> *u) {
+		if (p == nullptr) {
+			root = u;              // inserting into empty tree
+		} else {
+			int comp = compare(u->data, p->data);
+			// link from parent to child
+			if 		(comp < 0) 	{ p->left = u;	} 
+			else if (comp > 0) 	{ p->right = u;	} 
+			else 				{ return false; }  // u.x is already in the tree
+			u->parent = p;	// link from child to parent
+		}
+		n++;
+		return true;
+}
+
+// -----------------------------------------------------------------------------
+// Removal
+// -----------------------------------------------------------------------------
+template<typename T>
+void BinarySearchTree< T>::splice(BTNode<T> *u) { 	// cut a node from a tree
 	BTNode<T> *s, *p;
-	// s is the node's child
+	
+	// s will be 1. left child 2. right child 3. nullptr (if it is leaf)
 	if (u->left != nullptr) {
 		s = u->left;
 	} else {
 		s = u->right;
 	}
 
-	if (u == root) { 	// If u is the root.
+	if (u == root) { 	
 		root = s;
 		p = nullptr;
 	} else {
 		p = u->parent;
-		// if u is a left, then s is null
-		if (p->left == u) { 	// the target is a left child
+		// link u's parent to u's child to unlink u
+		if (p->left == u) { 	
 			p->left = s;
 		} else {
-			p->right = s;     	// the target is a right child
+			p->right = s;     	
 		}
 	}
 	// connect s->parent to its parent.
-	if (s != nullptr) {	// if a node is not null node?       		 
+	if (s != nullptr) {	      		 
 		s->parent = p;
 	}
 	n--;
@@ -158,7 +153,7 @@ void BinarySearchTree< T>::splice(BTNode<T> *u) {
 // Complex one
 // 1. If u is a leaf, then we can just detach u from its parent.
 // 2. If u has only one child, then we can splice u from the tree by having u.parent adopt u's child
-// 3. If u has two children. Replace the node from its right child's smallest decedent. 
+// 3. If u has two children. Replace the node from "its right child's smallest decedent". 
 template<typename T>
 void BinarySearchTree<T>::remove(BTNode<T> *u) {
 	if (u->left == nullptr || u->right == nullptr) { 	// Case 1 or 2
@@ -168,8 +163,8 @@ void BinarySearchTree<T>::remove(BTNode<T> *u) {
 		BTNode<T> *w = u->right;
 		while (w->left != nullptr)	// search its right child's smallest decedent
 			w = w->left;
-		u->data = w->data;
-		splice(w);
+		u->data = w->data;	// replace u's data with its right child's smallest decedent
+		splice(w);          // detach w
 		delete w;
 	}
 }
