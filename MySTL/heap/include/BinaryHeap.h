@@ -65,7 +65,7 @@ void BinaryHeap<T>::sort(std::vector<T> &b) {
 template<class T>
 //bool BinaryHeap<T>::add(T x) {
 void BinaryHeap<T>::add(T x) {
-	if (n + 1 > a.size()) resize();
+	if (n + 1 > (int)a.size()) resize();
 	a[n++] = x;		// put the new element at the last
 	bubbleUp(n-1);  // bubbleUp the new element : O(log n)
 	//return true;
@@ -86,7 +86,7 @@ T BinaryHeap<T>::remove() {
 	T x = a[0];  	// heap pops the root node
 	a[0] = a[--n];  // the last node is moved to the root & decrease the size
 	trickleDown(0); // O(log n)
-	if (3*n < a.size()) resize();
+	if (3*n < (int)a.size()) resize();
 	return x;
 }
 

@@ -13,7 +13,7 @@
 using namespace std;
 
 #include "BinaryHeap.h"
-//#include "MeldableHeap.h"
+#include "MeldableHeap.h"
 
 using namespace mySTL;
 
@@ -27,13 +27,14 @@ const unsigned FM=0x0002;   // front modifications
 template<typename T>
 void print(vector<T> &t) {
 	cout << endl;
-	for(int i=0; i<t.size(); i++) {
+	for(int i=0; i<(int)t.size(); i++) {
 		cout << t[i] << " ";
 	} 
 	cout << endl;
 }
 template<class Heap>
-void heapTests(Heap &h, int n, bool print_data=false) {
+void heapTests(Heap &h, int n) {
+//void heapTests(Heap &h2, int n, bool print_data=false) {
 	clock_t start, stop;
 	cout << "Adding " << n << " elements...";
 	cout.flush();
@@ -44,7 +45,7 @@ void heapTests(Heap &h, int n, bool print_data=false) {
 		//h.add(rand()%100);
 		h.add(t[i]);
 	}
-	if(print_data)
+	if(n<40)
     	print(t);
 	//BinaryHeap<int> h(t);
 	stop = clock();
@@ -64,7 +65,7 @@ void heapTests(Heap &h, int n, bool print_data=false) {
 		assert(p <= q);
 		p = q;
 	}
-	if(print_data)
+	if(n<40)
 		print(t);
 	stop = clock();
 	cout << "done (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
@@ -80,14 +81,13 @@ int main(int argc, char **argv)
 	{
 		cout << endl << "BinaryHeap<int>:" << endl;
 		BinaryHeap<int> h;
-		//heapTests(h, n, true);
-		heapTests(h, n);
+    	heapTests(h, n);
 	}
 
 	{
-//		cout << endl << "MeldableHeap<int>:" << endl;
-//		MeldableHeap1<int> h;
-//		heapTests(h, n);
+		cout << endl << "MeldableHeap<int>:" << endl;
+		MeldableHeap<int> h;
+		heapTests(h, n);
 	}
 
 	return 0;

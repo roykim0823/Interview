@@ -8,122 +8,85 @@
 #ifndef MELDABLEHEAP_H_
 #define MELDABLEHEAP_H_
 
-#include "BinaryTree.h"
+#include "../../binaryTrees/include/BinaryTree.h"
 
-namespace ods {
+namespace mySTL {
 
-template<class Node, class T> class MeldableHeap;
-
-template<class Node, class T>
-class MHeapNode : public BTNode<Node>  {
-public:
-	T x;
-};
-
-
-template<class Node, class T>
-class MeldableHeap: public BinaryTree<Node> {
+template<typename T>
+class MeldableHeap: public BinaryTree<T> {	
 protected:
-	using BinaryTree<Node>::r;
-	using BinaryTree<Node>::nil;
+	using BinaryTree<T>::root;
 	int n;
-	Node *merge(Node *h1, Node *h2);
+	static BTNode<T> *merge(BTNode<T> *h1, BTNode<T> *h2);
 public:
-	MeldableHeap();
-	virtual ~MeldableHeap();
+	MeldableHeap(): n(0) {}
+	virtual ~MeldableHeap() {}
 	bool add(T x);
-	T findMin();
+	T findMin()	{ root->data; }	// same as heap (but min_heap)
 	T remove();
-	void remove(Node *u);
+	void remove(BTNode<T> *u);
 	int size() {
 		return n;
 	}
 };
 
-template<class T>
-class MHeapNode1 : public MHeapNode<MHeapNode1<T>, T> { };
-
-template<class T>
-class MeldableHeap1 : public MeldableHeap<MHeapNode1<T>, T> { };
-
-
-template<class Node, class T>
-Node* MeldableHeap<Node,T>::merge(Node *h1, Node *h2) {
-	if (h1 == nil) return h2;
-	if (h2 == nil) return h1;
-	if (compare(h1->x, h2->x) > 0) return merge(h2, h1); // h1->x > h2->x
-        // now we know h1->x <= h2->x
+template<typename T>
+BTNode<T>* MeldableHeap<T>::merge(BTNode<T> *h1, BTNode<T> *h2) {
+	if (h1 == nullptr) return h2;
+	if (h2 == nullptr) return h1;
+	
+	if (compare(h1->data, h2->data) > 0) return merge(h2, h1); // h1->x > h2->x
+        
+	// now we know h1->x <= h2->x
 	if (rand() % 2) {
 		h1->left = merge(h1->left, h2);
-		if (h1->left != nil) h1->left->parent = h1;
+		if (h1->left != nullptr) 	h1->left->parent = h1;
 	} else {
 		h1->right = merge(h1->right, h2);
-		if (h1->right != nil) h1->right->parent = h1;
+		if (h1->right != nullptr) 	h1->right->parent = h1;
 	}
 	return h1;
 }
 
-template<class Node, class T>
-MeldableHeap<Node,T>::MeldableHeap() {
-	n = 0;
-}
-
-template<class Node, class T>
-MeldableHeap<Node,T>::~MeldableHeap() {
-	// nothing to do
-}
-
-template<class Node, class T>
-bool MeldableHeap<Node,T>::add(T x) {
-	Node *u = new Node();
-	u->left = u->right = u->parent = nil;
-	u->x = x;
-	r = merge(u, r);
-	r->parent = nil;
+template<typename T>
+bool MeldableHeap<T>::add(T x) {
+	BTNode<T> *u = new BTNode<T>(x);
+	
+	root = merge(u, root);
+	root->parent = nullptr;
 	n++;
 	return true;
 }
 
-
-
-template<class Node, class T>
-T MeldableHeap<Node,T>::findMin() {
-	return r->x;
-}
-
-
-
-template<class Node, class T>
-T MeldableHeap<Node,T>::remove() {
-	T x = r->x;
-	Node *tmp = r;
-	r = merge(r->left, r->right);
+template<typename T>
+T MeldableHeap<T>::remove() {
+	T x = root->data;
+	BTNode<T> *tmp = root;
+	root = merge(root->left, root->right);
 	delete tmp;
-	if (r != nil) r->parent = nil;
+	if (root != nullptr) root->parent = nullptr;
 	n--;
 	return x;
 }
 
-
-
-template<class Node, class T>
-void MeldableHeap<Node,T>::remove(Node *u) {
-	if (u == r) {
+template<typename T>
+void MeldableHeap<T>::remove(BTNode<T> *u) {
+	if (u == root) {
 		remove();
 	} else {
+		// unlink u from its parent
 		if (u == u->parent->left) {
-			u->parent->left = nil;
+			u->parent->left = nullptr;	
 		} else {
-			u->parent->right = nil;
+			u->parent->right = nullptr;
 		}
-		u->parent = nil;
-		r = merge(r, u->left);
-		r = merge(r, u->right);
-		r->parent = nil;
+		u->parent = nullptr;
+		root = merge(root, u->left);
+		root = merge(root, u->right);
+		root->parent = nullptr;
 		n--;
 	}
 }
-
 
 } /* namespace ods */
 #endif /* MELDABLEHEAP_H_ */
