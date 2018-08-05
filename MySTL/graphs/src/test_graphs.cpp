@@ -12,9 +12,8 @@
 #include <iostream>
 using namespace std;
 
-#include "AdjacencyMatrix.h"
-#include "AdjacencyLists.h"
 #include "Graph.h"
+#include "GraphTraversal.h"
 
 using namespace mySTL;
 
@@ -22,10 +21,7 @@ using namespace mySTL;
 #define CLOCKS_PER_SEC 1000
 #endif
 
-const unsigned RA=0x0001;   // random access
-const unsigned FM=0x0002;   // front modifications
-
-template<class Graph1, class Graph2>
+template<typename Graph1, typename Graph2>
 void graphCmp(Graph1 &g1, Graph2 &g2) {
 	int n = g1.nVertices();
 	assert(n == g2.nVertices());
@@ -35,16 +31,15 @@ void graphCmp(Graph1 &g1, Graph2 &g2) {
 		}
 	}
 	for (int i = 0; i < n; i++) {
-		int j;
-		vector<int> l1, l2;
+		size_t j; vector<int> l1, l2;
 		g1.outEdges(i, l1);
 		g2.outEdges(i, l2);
-		for (int i = 0; i < l1.size(); i++) {
+		for (size_t i = 0; i < l1.size(); i++) {
 			for (j = 0; j < l2.size(); j++)
 				if (l1[i] == l2[j]) break;
 			assert(j < l2.size());
 		}
-		for (int i = 0; i < l2.size(); i++) {
+		for (size_t i = 0; i < l2.size(); i++) {
 			for (j = 0; j < l1.size(); j++)
 				if (l2[i] == l1[j]) break;
 			assert(j < l2.size());
@@ -52,10 +47,10 @@ void graphCmp(Graph1 &g1, Graph2 &g2) {
 	}
 }
 
-template<class Graph1, class Graph2>
-void graphTests(Graph1 &g1, Graph2 &g2) {
+template<typename Graph1, typename Graph2>
+void genGraph(Graph1 &g1, Graph2 &g2) {
 	int n = g1.nVertices();
-	for (int k = 0; k < 50*n*n; k++) {
+	for (int k = 0; k < n*n; k++) {
 		int i = rand() % n;
 		int j = rand() % n;
 		if (i != j) {
@@ -67,7 +62,6 @@ void graphTests(Graph1 &g1, Graph2 &g2) {
 				g2.addEdge(i,j);
 			}
 		}
-		graphCmp(g1, g2);
 	}
 }
 
@@ -75,14 +69,22 @@ int main(int argc, char **argv)
 {
 	srand(0);
 
-   	int n = 30;
+   	int n = 1000;
    	cout << endl << "Graph Tests" << endl;
-   	AdjacencyMatrix am(n);
-   	AdjacencyLists al(n);
-   	graphTests(am, al);
+   	AdjMatrix am(n);
+   	AdjList<int> al(n);
+	cout << "generate Graphs..." << endl;
+   	genGraph(am, al);
+	cout << "compare Graphs..." << endl;
+	graphCmp(am, al);
+	cout << "traverse Graph1..." << endl;
+   	bfs(am, 0);
+  	dfs(am, 0);
+  	dfs2(am, 0);
+	cout << "traverse Graph2..." << endl;
    	bfs(al, 0);
-   	dfs(al, 0);
-   	dfs2(al, 0);
+  	dfs(al, 0);
+  	dfs2(al, 0);
 
 	return 0;
 }

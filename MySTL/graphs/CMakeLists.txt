@@ -3,10 +3,8 @@ project(graphs)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 
-#include_directories(include)
-include_directories(include2)
-#file(GLOB SRCS "src/*.cpp")
-file(GLOB SRCS "src2/*.cpp")
+include_directories(include)
+file(GLOB SRCS "src/*.cpp")
 
 foreach(src IN LISTS SRCS) 
 #	message(STATUS "${src}")
