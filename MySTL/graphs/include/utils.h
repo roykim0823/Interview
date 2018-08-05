@@ -8,7 +8,7 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-namespace mySTL {
+namespace ods {
 
 template<class T> inline
 T min(T a, T b) {

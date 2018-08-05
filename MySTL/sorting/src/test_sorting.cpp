@@ -13,9 +13,8 @@
 using namespace std;
 
 #include "Sort.h"
-#include "BinaryHeap.h"
 
-using namespace ods;
+using namespace mySTL;
 
 #ifndef CLOCKS_PER_SEC
 #define CLOCKS_PER_SEC 1000
@@ -26,11 +25,12 @@ const unsigned FM=0x0002;   // front modifications
 
 void sortTests(int n) {
 	clock_t start, stop;
-	array<int> a(n);
+	std::vector<int> a(n);
 
 	for (int i = 0; i < n; i++)
-		a[i] = rand();
-	cout << "Sorting " << n << " elements using quickSort...";
+		//a[i] = rand();
+		a[i] = rand()%100;
+	cout << "Sorting " << n << " elements using quickSort..." << endl;
 	cout.flush();
 	start = clock();
 	quickSort(a);

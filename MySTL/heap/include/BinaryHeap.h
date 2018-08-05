@@ -9,6 +9,7 @@
 #define BINARYHEAP_H_
 
 #include <vector>
+#include <algorithm>
 #include <cstring>
 #include "utils.h"
 
@@ -55,11 +56,12 @@ void BinaryHeap<T>::sort(std::vector<T> &b) {
 	BinaryHeap<T> h(b);
 	while (h.n > 1) {
 		//h.a.swap(--h.n, 0);
-		h.swap(--h.n, 0);
+		h.swap(--h.n, 0); 	// swap the last elment to top
 		h.trickleDown(0);
 	}
 	b = h.a;
-	b.reverse();
+	//b.reverse();
+	std::reverse(std::begin(b), std::end(b));
 }
 
 template<class T>
