@@ -43,7 +43,7 @@ void usetTests(USet &us, int n) {
 	cout << "Finding " << n << " elements...";
 	cout.flush();
 	start = clock();
-	int success = 0;
+	//int success = 0;
 
 	// Find
 	for (int i = 0; i < n; i++) {
