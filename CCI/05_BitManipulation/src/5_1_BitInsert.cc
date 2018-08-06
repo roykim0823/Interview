@@ -26,5 +26,5 @@ int main()
 
 	cout << bitset<32>(n) << endl;
 	cout << bitset<32>(updateBits(n, m, i, j)) << endl;
-	cout << bitset<32>((1<<i)-1) << endl;
+	//cout << bitset<32>((1<<i)-1) << endl;
 }	

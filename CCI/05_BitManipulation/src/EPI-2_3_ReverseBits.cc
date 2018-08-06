@@ -18,8 +18,8 @@ unsigned long reverse_bits1(unsigned long x) {
 unsigned long reverse_bits2(unsigned long x) {
 	int i=63, j=0;
 	while(i>j) {
-	 	if( ((x >>i) & 1) != ((x >> j) &1)) {
-			x^= (1L << i) | (1L << j);
+	 	if( ((x >>i) & 1) != ((x >> j) &1)) { 	// skip bits are same
+			x^= (1L << i) | (1L << j); 	// swap bits if there are different
 			//cout << x << endl;
 		}
 		i--;j++;

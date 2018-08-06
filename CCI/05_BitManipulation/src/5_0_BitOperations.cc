@@ -1,3 +1,6 @@
+#include <iostream>
+#include <vector>
+using namespace std;
 /*
 // Bit facts and Tricks
 x ^ 0s = x
@@ -18,8 +21,13 @@ x & (~0 << n) 	// clears the n rightmist bits of a
 */
 
 // Common Bit tasks: get, set, clear, and update a bit
-bool getBit(int num, int i) 	{		// return ith bit 
-	return ( (num & (1 << i) ) != 0 ) ; 
+int getBit(int num, int i) 	{		// return ith bit 
+	int mask = 1 << i;
+	if ( (num & mask) != 0)
+		return 1;
+	else 
+		return 0;
+	//return ( (num & (1 << i) ) != 0 ) ; 
 }
 
 int setBit(int num, int i)		{		// set ith bit 
@@ -32,15 +40,16 @@ int clearBit(int num, int i)	{   	// clear ith bit
 }
 
 int clearBitMSBthroughI(int num, int i) {
-	int mask = (1 << i) -1;
+	int mask = (1 << i)-1;
 	return num & mask;
 }
 
 int clearBitIthrough0(int num, int i) {
-	int mask = ~ ((1 << (i+1)) – 1);
+	int mask = ~((1 << (i+1))-1);
 	return num & mask;
 }
 
+// update num's i-th bit with v
 int updateBit(int num, int i, int v) {
 	int mask = ~(1 << i);
 	return (num & mask) | (v << i);
@@ -49,10 +58,10 @@ int updateBit(int num, int i, int v) {
 // Given a 32 bit unsigned integer, write a function that returns a count of bits are "1."
 
 // 1. Naive version: 32 iterations
-int cntBit(unsigned i) {
+int cntBit1(unsigned i) {
 	int count=0;
 	while(i) {
-		if( i & 1 == )
+		if( i & 1 )
 			count++;
 		i >>= 1;	// right shift by 1 bit
 	}
@@ -60,11 +69,22 @@ int cntBit(unsigned i) {
 }
 
 // 2. Naive version: n (number of 1 bits) iterations
-int cntBit(unsigned i) {
+int cntBit2(unsigned i) {
 	int count=0;
 	while(i) {
 		count++;
 		i = i & (i-1);	// clear the right most 1
 	}
 	return count;
+}
+
+int main() {
+	vector<unsigned> num = {0xff, 0xefff, 0xa5a5, 0x80000000};
+
+	cout << "Counting 1-bit" << endl;
+	for(int i=0; i<num.size(); i++) {
+		cout << num[i] << " -> " << cntBit1(num[i]) << " " << cntBit2(num[i]) << endl;
+	}
+
+	return 0;
 }

@@ -12,6 +12,7 @@ Solutions:
 #include <iostream>
 #include <bitset>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -71,34 +72,10 @@ string realToBinary2(double num) {
 	
 int main()
 {
-	double num;
-	num=0.5;
-	cout << realToBinary(num) << endl;
-	num=0.25;
-	cout << realToBinary(num) << endl;
-	num=0.125;
-	cout << realToBinary(num) << endl;
-	num=0.75;
-	cout << realToBinary(num) << endl;
-	num=0.875;
-	cout << realToBinary(num) << endl;
-	num=0.375;
-	cout << realToBinary(num) << endl;
-	num=0.975;
-	cout << realToBinary(num) << endl;
-	
-	num=0.5;
-	cout << realToBinary2(num) << endl;
-	num=0.25;
-	cout << realToBinary2(num) << endl;
-	num=0.125;
-	cout << realToBinary2(num) << endl;
-	num=0.75;
-	cout << realToBinary2(num) << endl;
-	num=0.875;
-	cout << realToBinary2(num) << endl;
-	num=0.375;
-	cout << realToBinary2(num) << endl;
-	num=0.975;
-	cout << realToBinary2(num) << endl;
+	vector<double> num = {0.5, 0.25, 0.125, 0.75, 0.875, 0.375, 0.975};
+	for(int i=0; i<num.size(); i++) {
+		cout << "num = " << num[i] << endl;
+		cout << "ver1 = " << realToBinary(num[i]) << endl;
+		cout << "ver2 = " << realToBinary2(num[i]) << endl;
+	}
 }	
