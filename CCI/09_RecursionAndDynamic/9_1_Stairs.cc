@@ -21,8 +21,8 @@ using namespace std;
 
 // Pure Recursive: O(3^N)
 long countWays_v1(int n){
-	if(n<0) return 0;
-	if(n==0) return 1;
+	if(n<3) return n;
+	if(n==3) return 4;
 	
 	// Top down approach: On the very last hop
 	return countWays_v1(n-1) + countWays_v1(n-2) + countWays_v1(n-3);

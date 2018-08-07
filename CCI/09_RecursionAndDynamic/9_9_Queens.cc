@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-#define Q	4	// The number of queens and the size of board (QxQ)
+#define Q	5	// The number of queens and the size of board (QxQ)
 
 void print(int *c, int n){
     for(int i=0; i<n; ++i){

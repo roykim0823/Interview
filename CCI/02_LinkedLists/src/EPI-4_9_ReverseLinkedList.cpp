@@ -45,3 +45,5 @@ shared_ptr<ListNode<int>> reverse_linked_list(
   }
   return prev;
 }
+
+int main() {}

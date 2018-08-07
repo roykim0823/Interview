@@ -68,8 +68,10 @@ node* loopstart(node *head){
     return fast;
 }
 
+/*
 // With Hashing
 map<node*, bool> hash;
+
 node* loopstart1(node *head){
     while(head){
         if(hash[head]) return head;
@@ -80,6 +82,7 @@ node* loopstart1(node *head){
     }
     return head;
 }
+*/
 int main(){
     int n = 10, m = 9;// m<n
     int a[] = {

@@ -8,6 +8,7 @@
 #include <iostream>
 using namespace std;
 
+// Binary search
 // O(logN) if all elements are unique.
 // O(n) if there are many duplicates
 int search(int a[], int left, int right, int x)

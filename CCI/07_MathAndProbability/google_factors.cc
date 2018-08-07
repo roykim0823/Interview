@@ -36,28 +36,6 @@ void factors3(int n) {
 	cout << endl;   
 }
 
-// Using prime numbers
-void factors2(int n) {	// WRONG:has missing factors
-//    cout << "factors2= " << n << " " << "1 ";
-    cout << "factors2= ";
-	int factorBy=1;
-	while(!(n&1)) { // if n is not odd numbers
-		n/=2;
-		factorBy*=2;
-		cout << n << " " << factorBy << " " << endl;;
-	}
-
-	//factorBy=1;
-	for(int factor=3; factor*factor<=n; factor+=2) {
-		while(n%factor==0) {
-			n/=factor;
-			factorBy*=factor;
-			cout << n << " " << factorBy << " " << endl;;
-		}
-	}
-	cout << endl;
-}
-
 int main(int argc, char* argv[]) {
 	int n;
   

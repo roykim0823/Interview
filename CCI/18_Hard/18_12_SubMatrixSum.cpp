@@ -10,14 +10,15 @@ int p[MAX_N][MAX_N], A[MAX_N][MAX_N];
 
 void PreCompute(int n){
     for(int i=0; i<=n; ++i)
-        p[0][i] = p[i][0] = 0;
+        p[0][i] = p[i][0] = 0;	// or A[0][i] A[i][0]
     for(int i=1; i<=n; ++i)
         for(int j=1; j<=n; ++j)
             p[i][j] = p[i-1][j] + p[i][j-1] - p[i-1][j-1] + A[i][j];
 }
 
 int MaxSum(int n){
-    int max_sum = 1<<31; //min int
+    //int max_sum = 1<<31; //min int
+    int max_sum = A[0][0]; //min int
     for(int i=1; i<=n; ++i)
         for(int j=i; j<=n; ++j){
             int cur_sum = 0;

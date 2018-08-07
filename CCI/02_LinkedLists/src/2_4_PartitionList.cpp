@@ -4,6 +4,7 @@
 /*
 Checks:
 	0. If this were an array, be careful. Array shifts are very expensive
+	-> No quicksort is based on this
 	1. Use two linked list for <x and >=x 
 	2. Then merge the two list at the end
 */

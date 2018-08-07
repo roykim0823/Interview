@@ -18,3 +18,5 @@ bool deleteNode(node *n) {
 	delete nextNode;
 	return true;
 }
+
+int main() {}
