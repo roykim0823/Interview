@@ -25,7 +25,7 @@ public:
 		std::cout << std::endl;
 	}
 
-	void fill() {
+	void fill() {	// sprinkle
 		for (int i=0; i<x.size(); i++)
 			x[i] = (1 - 2*( (float) rand()/RAND_MAX))*x.size();
 	}
