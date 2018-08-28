@@ -1,5 +1,5 @@
-/* Copyright (C) 1999 Lucent Technologies 
- From 'Programming Pearls' by Jon Bentley 
+/* Copyright (C) 1999 Lucent Technologies
+ From 'Programming Pearls' by Jon Bentley
  sort.cpp -- test and time
 Input lines: algnum
 Output lines: algnum
@@ -16,14 +16,14 @@ sort function immediately
 // and the call to sort in main
 //#include <algorithm>
 //using namespace std;
-// Data and supporting functions 
+// Data and supporting functions
 
 #define MAXN 10000000
 typedef int DType;
 DType data[MAXN];
 DType realx[MAXN];
 
-int *x = realx; // allow x to shift for heaps 
+int *x = realx; // allow x to shift for heaps
 int n;
 
 void swap(int i, int j)
@@ -38,14 +38,14 @@ int randint(int l, int u)
 	return l + (RAND_MAX*rand() + rand()) % (u-l+1);
 }
 
-// LIBRARY QSORT 
+// LIBRARY QSORT
 int intcomp(int *x, int *y)
 {
 	return *x - *y;
 }
 
-// INSERTION SORTS 
-// Simplest insertion sort 
+// INSERTION SORTS
+// Simplest insertion sort
 void insertSort1()
 {
 	int i, j;
@@ -54,7 +54,7 @@ void insertSort1()
 			swap(j-1, j);
 }
 
-// Write swap function inline 
+// Write swap function inline
 void insertSort2()
 {
 	int i, j;
@@ -67,7 +67,7 @@ void insertSort2()
 		}
 }
 
-// Move assignments to and from t out of loop 
+// Move assignments to and from t out of loop
 void insertSort3()
 {
 	int i, j;
@@ -81,49 +81,53 @@ void insertSort3()
 	}
 }
 
-// QUICKSORTS 
-// Simplest version, Lomuto partitioning 
+// QUICKSORTS
+// Simplest version, Lomuto partitioning
 void qsort1(int l, int u)
 {
 	int i, m;
 	if (l >= u)
 		return;
-	
-	m = l;
-	for (i = l+1; i <= u; i++)
+
+	m = l;  	// pivot t=x[l], l=first index
+	for (i = l+1; i <= u; i++) {
+		// invariant: x[l+1..m] 	<  x[l] &&
+		//			  x[m+1..i-1] 	>= x[l]
 		if (x[i] < x[l])
 			swap(++m, i);
-	
-	swap(l, m);
+	}
+
+	swap(l, m);	// move the pivot to x[m], it is removed in qsort2
 	qsort1(l, m-1);
 	qsort1(m+1, u);
 }
 
-// Sedgewick's version of Lomuto, with sentinel 
+// Sedgewick's version of Lomuto, with sentinel
 void qsort2(int l, int u)
 {
 	int i, m;
 	if (l >= u)
 		return;
-		
+
 	m = i = u+1;
 	do {
-   		do i--; while (x[i] < x[l]);
+   		do i--;
+		while (x[i] < x[l]);
    		swap(--m, i);
    	} while (i > l);
-	
+
 	qsort2(l, m-1);
 	qsort2(m+1, u);
 }
 
-// Two-way partitioning 
+// Two-way partitioning
 void qsort3(int l, int u)
 {
 	int i, j;
 	DType t;
 	if (l >= u)
 		return;
-	
+
 	t = x[l];
 	i = l;
 	j = u+1;
@@ -134,13 +138,13 @@ void qsort3(int l, int u)
 			break;
 		swap(i, j);
 	}
-	
+
 	swap(l, j);
 	qsort3(l, j-1);
 	qsort3(j+1, u);
 }
 
-// qsort3 + randomization + insertSort small subarrays + swap inline 
+// qsort3 + randomization + insertSort small subarrays + swap inline
 int cutoff = 50;
 void qsort4(int l, int u)
 {
@@ -148,12 +152,12 @@ void qsort4(int l, int u)
 	DType t, temp;
 	if (u - l < cutoff)
 		return;
-	
+
 	swap(l, randint(l, u));
 	t = x[l];
 	i = l;
 	j = u+1;
-	
+
 	for (;;) {
 		do i++; while (i <= u && x[i] < t);
 		do j--; while (x[j] > t);
@@ -161,25 +165,25 @@ void qsort4(int l, int u)
 			break;
 		temp = x[i]; x[i] = x[j]; x[j] = temp;
 	}
-	
+
 	swap(l, j);
 	qsort4(l, j-1);
 	qsort4(j+1, u);
 }
 
-// selection 
+// selection: k-th smallest element
 void select1(int l, int u, int k)
 {
 	int i, j;
 	DType t, temp;
 	if (l >= u)
 		return;
-		
+
 	swap(l, randint(l, u));
 	t = x[l];
 	i = l;
 	j = u+1;
-		
+
 	for (;;) {
 		do i++; while (i <= u && x[i] < t);
 		do j--; while (x[j] > t);
@@ -188,20 +192,20 @@ void select1(int l, int u, int k)
 		temp = x[i]; x[i] = x[j]; x[j] = temp;
 	}
 	swap(l, j);
-		
+
 	if (j < k)
 		select1(j+1, u, k);
 	else if (j > k)
 		select1(l, j-1, k);
 }
 
-// HEAP SORTS 
+// HEAP SORTS
 void siftup(int u)
 {
 	int i, p;
 	i = u;
 	for (;;) {
-		if (i == 1) 
+		if (i == 1)
 			break;
 		p = i / 2;
 		if (x[p] >= x[i])
@@ -228,7 +232,7 @@ void siftdown1(int l, int u)
 	}
 }
 
-void siftdown1b(int l, int u) // More C-ish version of 1 
+void siftdown1b(int l, int u) // More C-ish version of 1
 {
 	int i, c;
 	for (i = l; (c = 2*i) <= u; i = c) {
@@ -302,7 +306,7 @@ void hsort3()
 	}
 	x++;
 }
-void siftdown4(int l, int u) // replace swap with assignments 
+void siftdown4(int l, int u) // replace swap with assignments
 {
 	int i, c, p;
 	DType t;
@@ -314,8 +318,8 @@ void siftdown4(int l, int u) // replace swap with assignments
 			break;
 		if (c+1 <= u && x[c+1] > x[c])
 			c++;
-			x[i] = x[c];
-			i = c;
+		x[i] = x[c];
+		i = c;
 	}
 	x[i] = t;
 	for (;;) {
@@ -340,8 +344,8 @@ void hsort4(){
 	}
 	x++;
 }
-// Other Sorts -- Exercises in Column 11 
-void selsort() // Selection sort 
+// Other Sorts -- Exercises in Column 11
+void selsort() // Selection sort
 {
 	int i, j;
 	for (i = 0; i < n-1; i++)
@@ -355,7 +359,7 @@ void shellsort()
 	int i, j, h;
 	for (h = 1; h < n; h = 3*h + 1)
 		;
-	
+
 	for (;;) {
 		h /= 3;
 		if (h < 1) break;
@@ -368,8 +372,8 @@ void shellsort()
 	}
 }
 
-// SCAFFOLDING 
-// Timing 
+// SCAFFOLDING
+// Timing
 void timedriver(int size)
 {
 	int i, k, algnum, mod, start, clicks;
@@ -379,14 +383,14 @@ void timedriver(int size)
 	mod=n*2;
 
 	// Init data
-	for(int i=0; i<n; i++) 
+	for(int i=0; i<n; i++)
 		data[i] = randint(0, mod-1);
 
 	for(int alg=0; alg<algnum; alg++) {
 		// copy data to x
 		memcpy(x, data, sizeof(int)*n + 1);
 		start = clock();
-		
+
 		switch (alg) {
 			//case 11: qsort(x, n, sizeof(int), (int (__cdecl *)(const void *,const void
 			//*)) intcomp); break;
@@ -399,24 +403,24 @@ void timedriver(int size)
 			case 4: printf("quickSort2()\t");	qsort2(0, n-1); break;
 			case 5: printf("quickSort3()\t");	qsort3(0, n-1); break;
 			case 6: printf("quickSort4()\t");	qsort4(0, n-1);  insertSort3(); break;
-			case 7: k=n/2; select1(0, n-1, k); break;
-			case 8: hsort1(); break;
-			case 9: hsort2(); break;
-			case 10: hsort3(); break;
-			case 11: hsort4(); break;
-			case 12: selsort(); break;
-			case 13: shellsort(); break;
+			case 7: printf("select1()\t");		k=n/2; select1(0, n-1, k); break;
+			case 8: printf("hsort1()\t");		hsort1(); break;
+			case 9: printf("hsort2()\t");		hsort2(); break;
+			case 10: printf("hsort3()\t");		hsort3(); break;
+			case 11: printf("hsort4()\t");		hsort4(); break;
+			case 12: printf("selsort()\t");		selsort(); break;
+			case 13: printf("shellsort()\t");		shellsort(); break;
 			default: break;
 		}
 		clicks = clock() - start;
-		if (alg == 7) { // Test selection 
+		if (alg == 7) { // Test selection
 			for (i = 0; i < k; i++)
 				if (x[i] > x[k])
-					printf(" SELECT BUG i=%d\n", i);
+					printf(" SELECT BUG1 i=%d k=%d x[i]=%d, x[k]=%d\n", i, k, x[i], x[k]);
 			for (i = k+1; i < n; i++)
 			  	if (x[i] < x[k])
-			   		printf(" SELECT BUG i=%d\n", i);
-		} else { // Test sort 
+			   		printf(" SELECT BUG2 i=%d\n", i);
+		} else { // Test sort
 			for (i = 0; i < n-1; i++)
 				if (x[i] > x[i+1])
 					printf(" SORT BUG i=%d\n", i);
@@ -425,7 +429,7 @@ void timedriver(int size)
 	}
 }
 
-// Main 
+// Main
 int main(int argc, char *argv[])
 {
 	if(argc<2) return 0;
