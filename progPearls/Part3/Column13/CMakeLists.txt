@@ -5,7 +5,7 @@ set(CMAKE_C_FLAGS "-g -Wall")
 set(CMAKE_CXX_FLAGS "-g -Wall")
 find_library(MATHLIB m)
 
-file(GLOB SRCS "src/*.c")
+file(GLOB SRCS "src/*.cpp")
 
 foreach(src IN LISTS SRCS) 
 #	message(STATUS "${src}")
