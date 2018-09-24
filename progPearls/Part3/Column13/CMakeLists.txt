@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(COLUMN13)
 
 set(CMAKE_C_FLAGS "-g -Wall")
-set(CMAKE_CXX_FLAGS "-g -Wall")
+set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 find_library(MATHLIB m)
 
 file(GLOB SRCS "src/*.cpp")

@@ -59,6 +59,9 @@ int main(int argc, char *argv[])
 	gensets<IntSetBitVec>(m, maxval);
 	cout << "IntSetBin( " << m << ", " << maxval << " ) " << endl;
 	gensets<IntSetBin>(m, maxval);
+	cout << "1. genfloyd( " << m << ", " << maxval << " ) " << endl;
+	genfloyd(m, maxval);
+	//gensets<IntSetBin>(m, maxval);
 	// overheadonly(m, n);
 	// memaccesstest(m, n);
 

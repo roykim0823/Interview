@@ -10,14 +10,16 @@
 struct Bnode {
 	int val;
 	Bnode *left, *right;
-	// same as insert v in front of p
+	Bnode() { left=right=nullptr; }
 	Bnode(int v) { val = v; left=right=nullptr; } 	// p is the next node
 };
 
 struct BST {
 	size_t n, vn; 	// vn is for v's index in BST traverse
 	int *v;
-	Bnode *root, *sentinel;
+	Bnode *root;
+	Bnode *freenode;	// problem 5
+	Bnode *sentinel; 	// problem 7
 	
 	Bnode *rinsert(Bnode *p, int t) {
 		if( p == nullptr ) {
@@ -62,4 +64,33 @@ public:
 	void report(int *v) { S.v = v; S.vn=0; S.traverse(S.root); }
 };
 
+// Problem 7
+class IntSetBST2 : public IntSet<BST> {
+public:
+	IntSetBST2(int maxSize, int maxVal) {
+		S.root = S.sentinel = new Bnode; 	// root = nullptr -> new
+		S.n=0;
+		S.freenode = new Bnode[maxSize]; 
+	}
+	int size() { return S.n; }
+	void insert(int t) { 
+		S.sentinel->val = t;
+		Bnode **p = &(S.root);
+		while( (*p)->val != t) {
+			if( t < (*p)->val ) {
+				p = &( (*p)->left);
+			} else {
+				p = &( (*p)->right );
+			}
+		}
+		
+		if( *p == S.sentinel) {
+			*p = S.freenode++;
+			(*p)->val = t;
+			(*p)->left = (*p)->right = S.sentinel;
+			S.n++;
+		}
+	}
+	void report(int *v) { S.v = v; S.vn=0; S.traverse(S.root); }
+};
 #endif	// INTSET_LIST_H_
