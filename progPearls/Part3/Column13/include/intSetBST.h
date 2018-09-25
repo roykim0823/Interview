@@ -4,6 +4,7 @@
 
 #ifndef INTSET_BST_H_
 #define INTSET_BST_H_
+#include "util.h"
 #include "intSet.h"
 
 // p.138-139 IntSetBST

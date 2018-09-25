@@ -1,6 +1,7 @@
 /* Copyright (C) 1999 Lucent Technologies */
 /* From 'Programming Pearls' by Jon Bentley */
 /* sets.cpp -- exercise set implementations on random numbers */
+#include "util.h"
 #include "intSet.h"
 #include "intSetList.h"
 #include "intSetBST.h"
@@ -22,20 +23,6 @@ void genfloyd(int m, int maxval)
 	S.report(v);
 	for (int i = 0; i < m; i++)
 		cout << v[i] << "\n";
-}
-void memaccesstest(int m, int n) {
-	IntSetList S(m, n);
-	// change among Arr, List and List2
-	for (int i = 0; i < m; i++)
-		S.insert(i);
-}
-
-void overheadonly(int m, int n) {
-	int i, *v = new int[m];
-	for (i = 0; i < m; i++)
-		v[i] = bigrand() % n;
-		for (i = 0; i < m; i++)
-			cout << v[i] << "\n";
 }
 
 int main(int argc, char *argv[])

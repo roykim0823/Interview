@@ -5,6 +5,8 @@ set(CMAKE_C_FLAGS "-g -Wall")
 set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 find_library(MATHLIB m)
 
+include_directories(include)
+
 file(GLOB SRCS "src/*.cpp")
 
 foreach(src IN LISTS SRCS) 

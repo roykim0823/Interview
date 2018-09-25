@@ -4,6 +4,7 @@
 
 #ifndef INTSET_LIST_H_
 #define INTSET_LIST_H_
+#include "util.h"
 #include "intSet.h"
 
 // p.136-137 IntSetList
