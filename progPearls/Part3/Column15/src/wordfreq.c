@@ -5,15 +5,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define NHASH 29989
+#define MULT 31
+
 typedef struct node *nodeptr;
 typedef struct node {
 	char *word;
 	int count;
 	nodeptr next;
 } node;
-#define NHASH 29989
-#define MULT 31
+
 nodeptr bin[NHASH];
+
 unsigned int hash(char *p)
 {
 	unsigned int h = 0;
@@ -21,6 +25,7 @@ unsigned int hash(char *p)
 		h = MULT * h + *p;
 		return h % NHASH;
 }
+
 #define NODEGROUP 1000
 int nodesleft = 0;
 nodeptr freenode;
@@ -33,6 +38,7 @@ nodeptr nmalloc()
 	nodesleft--;
 	return freenode++;
 }
+
 #define CHARGROUP 10000
 int charsleft = 0;
 char *freechar;
@@ -68,10 +74,10 @@ int main()
 	char buf[100];
 	for (i = 0; i < NHASH; i++)
 		bin[i] = NULL;
-		while (scanf("%s", buf) != EOF)
-			incword(buf);
-			for (i = 0; i < NHASH; i++)
-				for (p = bin[i]; p != NULL; p = p->next)
-					printf("%s %d\n", p->word, p->count);
-					return 0;
+   	while (scanf("%s", buf) != EOF)
+   		incword(buf);
+  	for (i = 0; i < NHASH; i++)
+  		for (p = bin[i]; p != NULL; p = p->next)
+   			printf("%s %d\n", p->word, p->count);
+   	return 0;
 }

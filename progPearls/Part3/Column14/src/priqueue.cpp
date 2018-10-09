@@ -1,78 +1,55 @@
 /* Copyright (C) 1999 Lucent Technologies */
 /* From 'Programming Pearls' by Jon Bentley */
 /* priqueue.cpp -- priority queues (using heaps) */
+
 #include <iostream>
+#include "priqueue.h"
+
 using namespace std;
-// define and implement priority queues
-template<class T>
-class priqueue {
-	private:
-	int
-	n, maxsize;
-	T
-	*x;
-	void swap(int i, int j)
-	{
-		T t = x[i]; x[i] = x[j]; x[j] = t; }
-		public:
-		priqueue(int m)
-		{
-			maxsize = m;
-			x = new T[maxsize+1];
-			n = 0;
-		}
-		void insert(T t)
-		{
-			int i, p;
-			x[++n] = t;
-			for (i = n; i > 1 && x[p=i/2] > x[i]; i = p)
-				swap(p, i);
-		}
-		T extractmin()
-		{
-			int i, c;
-			T t = x[1];
-			x[1] = x[n--];
-			for (i = 1; (c=2*i) <= n; i = c) {
-				if (c+1<=n && x[c+1]<x[c])
-					c++;
-					if (x[i] <= x[c])
-						break;
-						swap(c, i);
-			}
-			return t;
-		}
-};
-// sort with priority queues (heap sort is strictly better)
-template<class T>
-void pqsort(T v[], int n)
-{
-	priqueue<T> pq(n);
-	int i;
-	for (i = 0; i < n; i++)
-		pq.insert(v[i]);
-		for (i = 0; i < n; i++)
-			v[i] = pq.extractmin();
+
+int bigRand() { return RAND_MAX*rand() + rand(); }
+int randint(int l, int u) {
+	return l+ bigRand() % (unsigned)(u-l+1);	// return positive
 }
-// main
+
+void print(int *vec, int n) {
+	int j=1;
+	for(int i=0; i<n; i++, j++) {
+		cout << vec[i] << "\t";
+		if(j%10==0)
+			cout << endl;
+	}
+	if((j-1)%10 != 0)
+		cout << endl;
+}
+	
+	
 int main()
 {
-	const int
-	n = 10;
-	int
-	i, v[n];
-	if (0) { // Generate and sortfor (i = 0; i < n; i++)
-		v[i] = n-i;
-		pqsort(v, n);
-		for (i = 0; i < n; i++)
-			cout << v[i] << "\n";
-	} else { // Insert integers; extract with 0
-	priqueue<int> pq(100);
-	while (cin >> i)
-		if (i == 0)
-			cout << pq.extractmin() << "\n";
-			else
-				pq.insert(i);
+	const int n = 10;
+	int	v[n], sorted[n];
+
+	for(int i=0; i<n; i++) {
+		v[i] = randint(0, 1000);
 	}
+	pqsort(v, n);
+	print(v, n);
+
+	priqueue<int>pq(n);
+	for(int i=0; i<n; i++) {
+		pq.insert(randint(0, 1000));
+	}
+	for(int i=0; i<n; i++) {
+		sorted[i] = pq.extractmin();
+	}
+	print(sorted, n);
+	
+	for(int i=0; i<n; i++) {
+		v[i] = randint(0, 1000);
+	}
+	print(v, n);
+	heapSort(v, n-1);	// since the heapsort start at index 1
+	print(v, n);
+
 	return 0;
 }

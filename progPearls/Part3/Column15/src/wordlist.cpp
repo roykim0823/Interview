@@ -12,7 +12,7 @@ int main()
 	set<string>::iterator j;
 	while (cin >> t)
 		S.insert(t);
-		for (j = S.begin(); j != S.end(); ++j)
-			cout << *j << "\n";
-			return 0;
+  	for (j = S.begin(); j != S.end(); ++j)
+  		cout << *j << "\n";
+  	return 0;
 }
