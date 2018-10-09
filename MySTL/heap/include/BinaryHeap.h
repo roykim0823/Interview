@@ -47,6 +47,14 @@ public:
 };
 
 template<class T>
+BinaryHeap<T>::BinaryHeap(std::vector<T> &b) : a(b) {
+	n = a.size();
+	for (int i = n/2-1; i >= 0; i--) { 	// from last element of half covers all the elements
+		trickleDown(i);
+	}
+}
+
+template<class T>
 void BinaryHeap<T>::resize() {
 	a.resize(max(2*n,1));
 }
@@ -60,8 +68,7 @@ void BinaryHeap<T>::sort(std::vector<T> &b) {
 		h.trickleDown(0);
 	}
 	b = h.a;
-	//b.reverse();
-	std::reverse(std::begin(b), std::end(b));
+	std::reverse(std::begin(b), std::end(b));	// b.reverse();
 }
 
 template<class T>
@@ -115,13 +122,6 @@ void BinaryHeap<T>::trickleDown(int i) {
 	} while (i >= 0);
 }
 
-template<class T>
-BinaryHeap<T>::BinaryHeap(std::vector<T> &b) : a(b) {
-	n = a.size();
-	for (int i = n/2-1; i >= 0; i--) { 	// from last element of half covers all the elements
-		trickleDown(i);
-	}
-}
 
 template<class T>
 void BinaryHeap<T>::clear() {
