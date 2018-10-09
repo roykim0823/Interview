@@ -4,6 +4,7 @@
 
 #ifndef INT_SET_BITVECTOR_H_
 #define INT_SET_BITVECTOR_H_
+#include "util.h"
 
 // p.140 
 class IntSetBitVec {
