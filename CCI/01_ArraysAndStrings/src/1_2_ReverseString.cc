@@ -35,7 +35,7 @@ string reverse(string str) {
 	int length = str.size();
 	int last = length-1;
 	
-	for(int i=0; i<length/2; i++) {
+	for(int i=0; i<length/2; i++) { 	// O(n) = n/2
 		char c = str[i];
 		str[i] = str[last-i]; 	// n-1-i
 		str[last-i] = c;
