@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project(Questions)
 
 set(CMAKE_C_FLAGS "-g -Wall")
-set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
+#set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
+set(CMAKE_CXX_FLAGS "-std=c++14 -g -Wall")
 find_library(MATHLIB m)
 
 include_directories(include)
