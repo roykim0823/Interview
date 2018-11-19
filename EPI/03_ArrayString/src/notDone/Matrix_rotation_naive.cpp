@@ -6,13 +6,7 @@
 #include <random>
 #include <vector>
 
-using std::cout;
-using std::default_random_engine;
-using std::endl;
-using std::ostream_iterator;
-using std::random_device;
-using std::uniform_int_distribution;
-using std::vector;
+using namespace std;
 
 void print_matrix(const vector<vector<int>> &A) {
   for (int i = 0; i < A.size(); ++i) {

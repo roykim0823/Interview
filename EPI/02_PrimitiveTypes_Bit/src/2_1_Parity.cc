@@ -18,7 +18,7 @@ short parity2(unsigned long x) {
 	while(x) {
 		result ^= 1;
 		// Clear the right most 1
-		x = x & (x-1);	// 01100 & 01011 -> remove the second 1
+		x = x & (x-1);	// 01100 & 01011 -> remove the right most 1 of x
 		// x & !(x-1) -> extract the lowest set bit of x
 		// x ^ (x>>1) -> gray code for x
 	}

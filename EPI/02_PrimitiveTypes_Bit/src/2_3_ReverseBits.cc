@@ -14,7 +14,7 @@ unsigned long reverse_bits1(unsigned long x) {
 	return reversed;
 }
 
-// O(n): 2/n, 32 iterations in all cases
+// O(n): 2/n, 32 iterations in all cases, by swapping
 unsigned long reverse_bits2(unsigned long x) {
 	int i=63, j=0;
 	while(i>j) {
@@ -28,13 +28,13 @@ unsigned long reverse_bits2(unsigned long x) {
 }
 
 // O(n): 2/n, best O(1)
-unsigned long reverse_bits2(unsigned long x) {
+unsigned long reverse_bits3(unsigned long x) {
 	int i=63, j=0;
 	// first check: 32 left bits = 32 right bits
 	unsigned long left_bits = x >> 32;
 	unsigned long  right_bits = x & 0x00000000FFFFFFFF;
 	if(left_bits==right_bits)  	// Nothing to swap
-		break;	                // O(1)
+		return x;	                // O(1)
 
 	while(i>j) {
 	 	if( ((x >>i) & 1) != ((x >> j) &1)) { 	// check if i and j bits are different
@@ -89,7 +89,7 @@ int main()
 	cout << std::hex<< x << ", reversed = ";
 	cout.width(16);
 	cout.fill('0');
-	cout << reverse_bits2(x) << endl;
+	cout << reverse_bits3(x) << endl;
 	
 	x=0x0000000080000000;
 	cout.width(16);
@@ -97,6 +97,6 @@ int main()
 	cout << std::hex<< x << ", reversed = ";
 	cout.width(16);
 	cout.fill('0');
-	cout << reverse_bits2(x) << endl;
+	cout << reverse_bits3(x) << endl;
 }
 
