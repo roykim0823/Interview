@@ -12,6 +12,8 @@
 	and is available only for the classes which have at least one virtual function.
 */
 
+// RTTI (Run-Time Type Information)
+
 #include<iostream> 
 using namespace std; 
 

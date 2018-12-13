@@ -1,3 +1,9 @@
+// CRTP (Curiously Recurring Template Pattern)
+// VPtr and VTable can be avoided altogether through CRTP. CRTP is a design
+// pattern in C++ in which a class X derives from a class template instantiation
+// using X itself as template argument.
+// More generally it is known as F-boud polymorphism.
+
 #include <iostream> 
 #include <chrono> 
 using namespace std; 
@@ -93,7 +99,7 @@ int main()
     // Store time after virtual function calls 
     auto now = Clock::now(); 
   
-    cout << "Time taken: "
+    cout << "VPtr Time taken: "
          << std::chrono::duration_cast 
            <std::chrono::nanoseconds>(now - then).count() 
          << " nanoseconds" << endl; 
@@ -110,7 +116,7 @@ int main()
     // Store time after virtual function calls 
     auto now_crtp = Clock::now(); 
   
-    cout << "Time taken: "
+    cout << "CRTP Time taken: "
          << std::chrono::duration_cast 
            <std::chrono::nanoseconds>(now_crtp - then_crtp).count() 
          << " nanoseconds" << endl;
