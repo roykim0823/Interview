@@ -16,7 +16,7 @@ bool primeNaive(int n) {
 	// Better one use sqrt(n) instead of n in the for loop
 	// not pribme number x = a*b at least, then a>sqrt then b<sqrt
 	// so check sqrt means check the b that is enough
-	// for(int i=2; i<=sqrt; i++) {
+	// for(int i=2; i<=sqrt(n); i++) {
 	for(int i=2; i<n; i++) {
 		if (n % i == 0) 
 			return false;

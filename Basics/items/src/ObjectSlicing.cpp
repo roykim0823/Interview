@@ -1,3 +1,20 @@
+/* Object Slicing in C++
+	In C++, a derived class object can be assigned to a base class object, but the other way is not possible.
+	Object slicing happens when a derived class object is assigned to a base object, additional
+	attributes of a derived class object are sliced off to form the base class ojbect.
+	However, object slicing doesn't occur when pointers or references to objects are passed
+	as function arguments since a pointer or reference of any type takes same amount of 
+	memory.
+
+class Base { int x, y; };
+class Derived : public Base 
+{ int z, w; };
+
+int main() {
+	Derived d;
+	Base b = d;	// Object Slicing, z and w of d are sliced off
+}
+*/
 
 #include <iostream> 
 using namespace std; 
@@ -44,12 +61,10 @@ int main()
     Base b(33); 
     Derived d(45, 54); 
     somefunc(b); 
-    somefunc(d);  // Object Slicing, the member j of d is sliced off 
+    somefunc(d);  		// Object Slicing, the member j of d is sliced off 
     somefunc_ref(b); 
-    somefunc_ref(d);  // No Object Slicing
+    somefunc_ref(d);  	// No Object Slicing
     somefunc_ptr(&b); 
-    somefunc_ptr(&d);  // No Object Slicing
+    somefunc_ptr(&d);  	// No Object Slicing
     return 0; 
 } 
-
-
