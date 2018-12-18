@@ -63,7 +63,7 @@ int badsearch(DataType t) // p47
 		m = (l + u) / 2;
 		// printf("    %d %d %d\n", l, m, u);
 		if (x[m] < t)
-			l = m+1;
+			l = m;
 		else if (x[m] > t)
 			u = m;
 		else	// x[m] == t 

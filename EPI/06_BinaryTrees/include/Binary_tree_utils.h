@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "./Binary_tree_prototype.h"
+#include "Binary_tree_prototype.h"
 
 using std::default_random_engine;
 using std::list;

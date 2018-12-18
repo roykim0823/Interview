@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
     int pivot = A[pivot_index];
 	cout << "Pivot index= " << pivot_index << " , Pivot value= " << A[pivot_index] << "->  ";
     dutch_flag_partition(&A, pivot_index);
-    int i = 0;
+    size_t i = 0;
     while (A[i] < pivot && i < A.size()) {
       cout << A[i] << ' ';
       ++i;

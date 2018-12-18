@@ -4,7 +4,7 @@ project(02)
 set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 
 include_directories(include)
-file(GLOB SRCS "src/*.cc")
+file(GLOB SRCS "src/*.cpp")
 
 foreach(src IN LISTS SRCS) 
 #	message(STATUS "${src}")

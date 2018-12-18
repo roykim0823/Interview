@@ -11,7 +11,7 @@ using std::unique_ptr;
 template <typename T>
 struct BinaryTreeNode {
   T data;
-  unique_ptr<BinaryTreeNode<T>> left, right;
+  unique_ptr<BinaryTreeNode<T>> left, right;//, parent;
   BinaryTreeNode<T>* parent;
 };
 // @exclude
