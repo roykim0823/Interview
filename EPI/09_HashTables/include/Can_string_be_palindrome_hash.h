@@ -6,10 +6,12 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <algorithm>	// std::for_each
 
 using std::pair;
 using std::string;
 using std::unordered_map;
+using std::for_each;
 
 // @include
 bool can_string_be_a_palindrome_hash(const string& s) {

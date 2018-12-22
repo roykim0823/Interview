@@ -7,15 +7,7 @@
 #include <string>
 #include <unordered_map>
 
-using std::boolalpha;
-using std::cout;
-using std::default_random_engine;
-using std::endl;
-using std::random_device;
-using std::string;
-using std::uniform_int_distribution;
-using std::unordered_map;
-using std::vector;
+using namespace std;
 
 string rand_string(int len) {
   string ret;
@@ -28,7 +20,6 @@ string rand_string(int len) {
   return ret;
 }
 
-// @include
 bool anonymous_letter(const string& L, const string& M) {
   unordered_map<char, int> hash;
   // Insert all chars in L into a hash table.
@@ -49,7 +40,6 @@ bool anonymous_letter(const string& L, const string& M) {
   // No entry in hash means L can be covered by M.
   return hash.empty();
 }
-// @exclude
 
 int main(int argc, char* argv[]) {
   default_random_engine gen((random_device())());

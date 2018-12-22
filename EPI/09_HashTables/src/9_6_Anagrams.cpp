@@ -8,20 +8,10 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <iterator> 	// ostream_iterator
 
-using std::cout;
-using std::default_random_engine;
-using std::endl;
-using std::pair;
-using std::ostream_iterator;
-using std::random_device;
-using std::string;
-using std::uniform_int_distribution;
-using std::unordered_map;
-using std::unordered_set;
-using std::vector;
+using namespace std;
 
-// @include
 void find_anagrams(const vector<string>& dictionary) {
   // Get the sorted string and then insert into hash table.
   unordered_map<string, vector<string>> hash;
@@ -43,7 +33,6 @@ void find_anagrams(const vector<string>& dictionary) {
     }
   }
 }
-// @exclude
 
 string rand_string(int len) {
   default_random_engine gen((random_device())());
@@ -59,6 +48,7 @@ int main(int argc, char* argv[]) {
   default_random_engine gen((random_device())());
   vector<string> dictionary;
   uniform_int_distribution<int> n_dis(0, 99999);
+  //uniform_int_distribution<int> n_dis(0, 19);
   int n = n_dis(gen);
   unordered_set<string> table;
   for (int i = 0; i < n; ++i) {
