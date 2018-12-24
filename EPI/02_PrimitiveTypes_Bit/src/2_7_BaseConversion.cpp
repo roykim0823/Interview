@@ -17,7 +17,7 @@ string convertBase(const string &s, const int &b1, const int &b2) {
 	
 
 	int x=0;
-	int i= (neg == true? 1:0);	// calculate start index of the number
+	size_t i= (neg == true? 1:0);	// calculate start index of the number
 	for (; i<s.size(); ++i) {
 		x = x*b1;
 		if(isdigit(s[i]))
