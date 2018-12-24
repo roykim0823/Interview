@@ -5,8 +5,8 @@
 #include <random>
 #include <string>
 
-#include "./Can_string_be_palindrome_hash.h"
-#include "./Can_string_be_palindrome_sorting.h"
+#include "Can_string_be_palindrome_hash.h"
+#include "Can_string_be_palindrome_sorting.h"
 
 using std::boolalpha;
 using std::cout;

@@ -13,7 +13,7 @@ bool can_string_be_a_palindrome_sorting(string* s) {
   sort(s->begin(), s->end());
   int odd_count = 0, num_curr_char = 1;
 
-  for (int i = 1; i < s->size() && odd_count <= 1; ++i) {
+  for (size_t i = 1; i < s->size() && odd_count <= 1; ++i) {
     if ((*s)[i] != (*s)[i - 1]) {
       if (num_curr_char & 1) {
         ++odd_count;

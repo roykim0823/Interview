@@ -14,7 +14,6 @@ string convertBase(const string &s, const int &b1, const int &b2) {
 	bool neg=false;	// default 
 	if(s[0] == '-')
 		neg=true;
-	
 
 	int x=0;
 	size_t i= (neg == true? 1:0);	// calculate start index of the number
