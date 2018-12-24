@@ -1,9 +1,6 @@
-// Copyright (c) 2013 Elements of Programming Interviews. All rights reserved.
-
 #include <cassert>
 #include <iostream>
 #include <memory>
-
 #include "./Binary_tree_with_parent_prototype.h"
 
 using std::cout;

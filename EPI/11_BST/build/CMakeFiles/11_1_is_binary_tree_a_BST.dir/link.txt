@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++1z -g -Wall   CMakeFiles/11_1_is_binary_tree_a_BST.dir/src/11_1_is_binary_tree_a_BST.cpp.o  -o 11_1_is_binary_tree_a_BST -rdynamic 

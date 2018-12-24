@@ -3,7 +3,7 @@
 #include <cassert>
 #include <memory>
 
-#include "./BST_prototype.h"
+#include "BST_prototype.h"
 
 using std::unique_ptr;
 

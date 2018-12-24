@@ -6,22 +6,84 @@
 #include <memory>
 #include <queue>
 
-#include "./Binary_tree_prototype.h"
+#include "Binary_tree_prototype.h"
 
 using std::boolalpha;
 using std::cout;
 using std::endl;
 using std::numeric_limits;
-using std::queue;
 using std::unique_ptr;
+using std::queue;
 
-// @include
+// Solution 1
+bool is_BST_helper(const unique_ptr<BinaryTreeNode<int>>& r,
+                   int lower, int upper);
+
+bool is_BST(const unique_ptr<BinaryTreeNode<int>>& r) {
+  return is_BST_helper(r,
+                       numeric_limits<int>::min(),
+                       numeric_limits<int>::max());
+}
+
+bool is_BST_helper(const unique_ptr<BinaryTreeNode<int>>& r,
+                   int lower, int upper) {
+  if (!r) {
+    return true;
+  } else if (r->data < lower || r->data > upper) {
+    return false;
+  }
+
+  return is_BST_helper(r->left, lower, r->data) &&
+         is_BST_helper(r->right, r->data, upper);
+}
+
+// Solution2: const space
+// Perform inorder traverse see if the prev value is less than last one
+bool is_BST_constSpace(const unique_ptr<BinaryTreeNode<int>>& root) {
+  auto* n = root.get();
+  // Store the value of previous visited node.
+  int last = numeric_limits<int>::min();
+  bool res = true;
+
+  while (n) {
+    if (n->left.get()) {
+      // Find the predecessor of n.
+      auto* pre = n->left.get();
+      while (pre->right.get() && pre->right.get() != n) {
+        pre = pre->right.get();
+      }
+
+      // Process the successor link.
+      if (pre->right.get()) {  // pre->right == n.
+        // Revert the successor link if predecessor's successor is n.
+        pre->right.release();
+        if (last > n->data) {
+          res = false;
+        }
+        last = n->data;
+        n = n->right.get();
+      } else {  // if predecessor's successor is not n.
+        pre->right.reset(n);
+        n = n->left.get();
+      }
+    } else {
+      if (last > n->data) {
+        res = false;
+      }
+      last = n->data;
+      n = n->right.get();
+    }
+  }
+  return res;
+}
+
+// Solution 3: BFS
 struct QNode {
   BinaryTreeNode<int>* node;
   int lower, upper;
 };
 
-bool is_BST(const unique_ptr<BinaryTreeNode<int>>& n) {
+bool is_BST_BFS(const unique_ptr<BinaryTreeNode<int>>& n) {
   queue<QNode> q;
   q.emplace(
       QNode{n.get(), numeric_limits<int>::min(), numeric_limits<int>::max()});
