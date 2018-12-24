@@ -6,9 +6,9 @@
 #include <random>
 #include <vector>
 
-#include "./Intersect_sorted_arrays1.h"
-#include "./Intersect_sorted_arrays2.h"
-#include "./Intersect_sorted_arrays3.h"
+#include "Intersect_sorted_arrays1.h"
+#include "Intersect_sorted_arrays2.h"
+#include "Intersect_sorted_arrays3.h"
 
 using std::cout;
 using std::default_random_engine;
