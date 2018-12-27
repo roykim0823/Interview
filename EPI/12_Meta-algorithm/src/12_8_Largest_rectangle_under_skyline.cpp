@@ -5,7 +5,7 @@
 #include <random>
 #include <vector>
 
-#include "./Largest_rectangle_under_skyline.h"
+#include "Largest_rectangle_under_skyline.h"
 
 using std::cout;
 using std::default_random_engine;

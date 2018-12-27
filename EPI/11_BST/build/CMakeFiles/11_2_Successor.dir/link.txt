@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++1z -g -Wall   CMakeFiles/11_2_Successor.dir/src/11_2_Successor.cpp.o  -o 11_2_Successor -rdynamic 
