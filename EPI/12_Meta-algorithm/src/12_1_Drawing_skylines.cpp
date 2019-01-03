@@ -12,7 +12,8 @@ using namespace std;
 int main(int argc, char* argv[]) {
   default_random_engine gen((random_device())());
   // Random test 2000 times.
-//  for (int times = 0; times < 2000; ++times) {
+/*/  for (int times = 0; times < 2000; ++times) {
+	
   for (int times = 0; times < 1; ++times) {
     int n;
     if (argc == 2) {
@@ -44,5 +45,14 @@ int main(int argc, char* argv[]) {
       }
     }
   }
+*/
+	
+    vector<Skyline<int, int>> A = { {1, 5, 11}, {2, 7, 6}, {3, 9, 13}, {12, 16, 7}, {14, 25, 3}, 
+					{19, 22, 18}, {23, 29, 13}, {24, 28, 4}};
+    vector<Skyline<int, int>> ans = drawing_skylines(A);
+    for (size_t i = 0; i < ans.size(); ++i) {
+		cout << ans[i].left << " " << ans[i].right << " " << ans[i].height << endl;
+	}
+
   return 0;
 }

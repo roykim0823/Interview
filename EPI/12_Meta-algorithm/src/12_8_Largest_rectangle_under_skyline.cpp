@@ -36,7 +36,7 @@ int check_answer(const vector<int>& A) {
 
 int main(int argc, char* argv[]) {
   default_random_engine gen((random_device())());
-  for (int times = 0; times < 3000; ++times) {
+  for (int times = 0; times < 10; ++times) {
     vector<int> A;
     int n;
     if (argc == 2) {

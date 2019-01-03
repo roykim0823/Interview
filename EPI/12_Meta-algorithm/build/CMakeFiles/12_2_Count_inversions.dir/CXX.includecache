@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/countInversion.h
+algorithm
+-
+cassert
+-
+iostream
+-
+random
+-
+vector
+-
+set
+-
+
+/home/roy/study/Practice/EPI/12_Meta-algorithm/src/12_2_Count_inversions.cpp
+countInversion.h
+/home/roy/study/Practice/EPI/12_Meta-algorithm/src/countInversion.h
+

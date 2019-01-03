@@ -1,4 +1,4 @@
-The Skyline Problem using Divide and Conquer algorithm
+### The Skyline Problem using Divide and Conquer algorithm
 Given n rectangular buildings in a 2-dimensional city, computes the skyline of these buildings, eliminating hidden lines. The main task is to view buildings from a side and remove all sections that are not visible.
 All buildings share common bottom and every building is represented by triplet (left, ht, right)
 
@@ -6,9 +6,10 @@ All buildings share common bottom and every building is represented by triplet (
 ‘right’: is x coordinate of right side
 ‘ht’: is height of building.
 
-A skyline is a collection of rectangular strips. A rectangular strip is represented as a pair (left, ht) where left is x coordinate of left side of strip and ht is height of strip.
------------------------------
-Examples:
+* A skyline is a collection of rectangular strips. 
+* A rectangular strip is represented as a pair (left, ht) where left is x coordinate of left side of strip and ht is height of strip.
+
+###Examples:
 Input: Array of buildings
        { (1,11,5), (2,6,7), (3,13,9), (12,7,16), (14,3,25),
          (19,18,22), (23,13,29), (24,4,28) }
@@ -21,22 +22,32 @@ Consider following as another example when there is only one
 building
 Input:  {(1, 11, 5)}
 Output: (1, 11), (5, 0)
--------------------------------
 
-A Simple Solution is to initialize skyline or result as empty, then one by one add buildings to skyline. A building is added by first finding the overlapping strip(s). If there are no overlapping strips, the new building adds new strip(s). If overlapping strip is found, then height of the existing strip may increase. Time complexity of this solution is O(n2)
+## A Simple Solution 
+1. initialize skyline or result as empty
+2. then one by one add buildings to skyline. 
+3. A building is added by first finding the overlapping strip(s). 
+4. If there are no overlapping strips, the new building adds new strip(s). 
+5. If overlapping strip is found, then height of the existing strip may increase. 
+-> Time complexity of this solution is O(n2)
 
-We can find Skyline in Θ(nLogn) time using Divide and Conquer. The idea is similar to Merge Sort, divide the given set of buildings in two subsets. Recursively construct skyline for two halves and finally merge the two skylines.
+## Better Solution by Divide and Conquer
+- The idea is similar to Merge Sort, divide the given set of buildings in two subsets. 
+- Recursively construct skyline for two halves and finally merge the two skylines.
 
-How to Merge two Skylines?
-The idea is similar to merge of merge sort, start from first strips of two skylines, compare x coordinates. Pick the strip with smaller x coordinate and add it to result. The height of added strip is considered as maximum of current heights from skyline1 and skyline2.
+### How to Merge two Skylines?
+The idea is similar to merge of merge sort:
+1. start from first strips of two skylines, compare x coordinates. 
+2. Pick the strip with smaller x coordinate and add it to result. 
+3. The height of added strip is considered as maximum of current heights from skyline1 and skyline2.
 
-Example to show working of merge:
+### Example to show working of merge:
 Height of new Strip is always obtained by takin maximum of following
      (a) Current height from skyline1, say 'h1'.  
      (b) Current height from skyline2, say 'h2'
-  h1 and h2 are initialized as 0. h1 is updated when a strip from
-  SkyLine1 is added to result and h2 is updated when a strip from 
-  SkyLine2 is added.
+  h1 and h2 are initialized as 0. 
+  h1 is updated when a strip from SkyLine1 is added to result 
+  h2 is updated when a strip from SkyLine2 is added.
  
   Skyline1 = {(1, 11),  (3, 13),  (9, 0),  (12, 7),  (16, 0)}
   Skyline2 = {(14, 3),  (19, 18), (22, 3), (23, 13),  (29, 0)}
@@ -50,17 +61,17 @@ Height of new Strip is always obtained by takin maximum of following
 
   Compare (3, 13) and (14, 3). Since first strip has smaller left x,
   add it to result and increment index for Skyline1
-  h1 = 13, New Height =  max(13, 0)
+  h1 = 13, New Height =  max(13, 11)
   Result =  {(1, 11), (3, 13)}   
   
   Similarly (9, 0) and (12, 7) are added.
-  h1 = 7, New Height =  max(7, 0) = 7
+  h1 = 0-> 7, New Height =  max(0, 7) = 7
   Result =   {(1, 11), (3, 13), (9, 0), (12, 7)}
 
   Compare (16, 0) and (14, 3). Since second strip has smaller left x, 
   it is added to result.
-  h2 = 3, New Height =  max(7, 3) = 7
-  Result =   {(1, 11), (3, 13), (9, 0), (12, 7), (14, 7)}
+  h2 = 3, New Height =  max(7, 3) = 7? 
+  Result =   {(1, 11), (3, 13), (9, 0), (12, 7), (14, 3)}
 
   Compare (16, 0) and (19, 18). Since first strip has smaller left x, 
   it is added to result.
