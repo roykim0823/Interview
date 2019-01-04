@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++1z -g -Wall   CMakeFiles/12_2_Count_inversions.dir/src/12_2_Count_inversions.cpp.o  -o 12_2_Count_inversions -rdynamic 

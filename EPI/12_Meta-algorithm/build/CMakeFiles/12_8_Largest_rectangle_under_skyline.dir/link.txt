@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++1z -g -Wall   CMakeFiles/12_8_Largest_rectangle_under_skyline.dir/src/12_8_Largest_rectangle_under_skyline.cpp.o  -o 12_8_Largest_rectangle_under_skyline -rdynamic 

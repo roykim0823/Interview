@@ -11,15 +11,17 @@ using std::max;
 using std::stack;
 using std::vector;
 
-// @include
 int calculate_largest_rectangle(const vector<int>& A) {
   // Calculate L.
   stack<int> s;
   vector<int> L;
+
   for (int i = 0; i < A.size(); ++i) {
-    while (!s.empty() && A[s.top()] >= A[i]) {
+	// if previous height A[s.top()] >= current height
+    while (!s.empty() && A[s.top()] >= A[i]) {	
       s.pop();
     }
+	// if s.empty() means the current height is lower then previous one
     L.emplace_back(s.empty() ? -1 : s.top());
     s.emplace(i);
   }

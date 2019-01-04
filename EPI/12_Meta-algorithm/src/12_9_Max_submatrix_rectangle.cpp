@@ -8,18 +8,9 @@
 #include <random>
 #include <vector>
 
-#include "./Max_submatrix_rectangle_brute_force.h"
+#include "Max_submatrix_rectangle_brute_force.h"
 
-using std::cout;
-using std::default_random_engine;
-using std::deque;
-using std::endl;
-using std::max;
-using std::min;
-using std::numeric_limits;
-using std::random_device;
-using std::uniform_int_distribution;
-using std::vector;
+using namespace std;
 
 // @include
 struct MaxHW {

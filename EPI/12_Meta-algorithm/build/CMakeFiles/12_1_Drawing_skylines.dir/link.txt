@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++1z -g -Wall   CMakeFiles/12_1_Drawing_skylines.dir/src/12_1_Drawing_skylines.cpp.o  -o 12_1_Drawing_skylines -rdynamic 

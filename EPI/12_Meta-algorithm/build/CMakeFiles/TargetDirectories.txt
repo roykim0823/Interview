@@ -1,5 +1,0 @@
-/home/roy/study/Practice/EPI/12_Meta-algorithm/build/CMakeFiles/edit_cache.dir
-/home/roy/study/Practice/EPI/12_Meta-algorithm/build/CMakeFiles/12_8_Largest_rectangle_under_skyline.dir
-/home/roy/study/Practice/EPI/12_Meta-algorithm/build/CMakeFiles/12_1_Drawing_skylines.dir
-/home/roy/study/Practice/EPI/12_Meta-algorithm/build/CMakeFiles/12_2_Count_inversions.dir
-/home/roy/study/Practice/EPI/12_Meta-algorithm/build/CMakeFiles/rebuild_cache.dir
