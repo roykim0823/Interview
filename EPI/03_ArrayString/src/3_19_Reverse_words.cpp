@@ -13,6 +13,34 @@ using std::random_device;
 using std::string;
 using std::uniform_int_distribution;
 
+/* The code for computing the position for each character in a string in a single pass is farily complex.
+   However, a two stage iteration is easy:
+   1. reverse the entire string.
+   2. reverse each string
+   ex) "ram is costly"
+    1. "yltsoc si mar"
+	2. "costly is ram"
+*/
+
+void reverse_words(string* input) {
+  // Reverse the whole string first.
+  reverse(input->begin(), input->end());
+
+  size_t start = 0, end;
+  while ((end = input->find(" ", start)) != string::npos) {
+    // Reverse each word in the string.
+    reverse(input->begin() + start, input->begin() + end);
+    start = end + 1;
+  }
+  // Reverse the last word.
+  reverse(input->begin() + start, input->end());
+}
+
+void check_answer(const string &ori, string* str) {
+  reverse_words(str);
+  assert(ori.compare(*str) == 0);
+}
+
 string rand_string(int len) {
   default_random_engine gen((random_device())());
   string ret;
@@ -28,27 +56,6 @@ string rand_string(int len) {
     }
   }
   return ret;
-}
-
-// @include
-void reverse_words(string* input) {
-  // Reverse the whole string first.
-  reverse(input->begin(), input->end());
-
-  size_t start = 0, end;
-  while ((end = input->find(" ", start)) != string::npos) {
-    // Reverse each word in the string.
-    reverse(input->begin() + start, input->begin() + end);
-    start = end + 1;
-  }
-  // Reverse the last word.
-  reverse(input->begin() + start, input->end());
-}
-// @exclude
-
-void check_answer(const string &ori, string* str) {
-  reverse_words(str);
-  assert(ori.compare(*str) == 0);
 }
 
 int main(int argc, char *argv[]) {

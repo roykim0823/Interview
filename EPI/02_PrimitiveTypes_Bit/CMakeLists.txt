@@ -14,3 +14,5 @@ foreach(src IN LISTS SRCS)
 	add_executable(${target} ${src})
 	list(APPEND TARGET_LIST ${target})
 endforeach()
+
+add_subdirectory(CCI_05_BitManipulation)
