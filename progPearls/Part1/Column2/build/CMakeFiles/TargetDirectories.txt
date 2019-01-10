@@ -1,6 +1,0 @@
-/home/roy/study/ProgrammingPearls/Column2/build/CMakeFiles/edit_cache.dir
-/home/roy/study/ProgrammingPearls/Column2/build/CMakeFiles/rebuild_cache.dir
-/home/roy/study/ProgrammingPearls/Column2/build/CMakeFiles/rotate.dir
-/home/roy/study/ProgrammingPearls/Column2/build/CMakeFiles/encoder.dir
-/home/roy/study/ProgrammingPearls/Column2/build/CMakeFiles/decoder.dir
-/home/roy/study/ProgrammingPearls/Column2/build/CMakeFiles/rotate_nonAdj.dir

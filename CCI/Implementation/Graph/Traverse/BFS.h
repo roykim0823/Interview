@@ -24,7 +24,7 @@ class BreadthFirstSearch
         	vector<int>::iterator pos;
 			for(pos=temp.begin(); pos !=temp.end(); ++pos)
 			{  
-				if(marked[*pos]==false)	// For every unmarked adjacent vertex,
+				if(marked[*pos]==false)	// For every unmarked (not visited) adjacent vertex,
 				{
 					edgeTo[*pos]=v;    		// 1. Save last edge on a shortest path
 					marked[*pos]=true;      // 2. mark it because path is known

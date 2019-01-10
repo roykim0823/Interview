@@ -90,6 +90,10 @@ public:
 
 	vector<Edge> edges()
 	{
+		vector<Edge> mst;
+		for(int v=1; v<eggeTo.size(); v++
+			mst.push_back(edgeTo[v]);
+		return mst;
 	}
 
 	double weight() 

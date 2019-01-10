@@ -1,1 +1,0 @@
-/usr/bin/cc  -g -Wall   CMakeFiles/rotate_nonAdj.dir/src/rotate_nonAdj.c.o  -o rotate_nonAdj -rdynamic 
