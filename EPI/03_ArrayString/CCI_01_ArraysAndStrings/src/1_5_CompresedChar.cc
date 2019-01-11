@@ -13,20 +13,26 @@ string to_string2(int);
 
 void compress(string &str) {	
 	string temp;
+	temp.reserve(str.size() << 1); 	// to reduce # memory move
+	
 	char prev=str[0];
     int cnt=1;
+	int idx=0;
+
+
 
 	for (int i=1; i<str.size(); i++)  {
 		if(str[i] == prev)	// Found repeated char  
 			cnt++;
 		else {          	// Insert char count, and update last char
-			temp.append(prev+to_string2(cnt));
+			temp.append(prev+to_string2(cnt));	
 			cnt=1;
 			prev=str[i];
 		}
 	}
 	// Add last element
     temp.append(prev+to_string2(cnt));
+	temp.shrink_to_fit();
 
 	if(temp.size() < str.size())
 		str=temp;
