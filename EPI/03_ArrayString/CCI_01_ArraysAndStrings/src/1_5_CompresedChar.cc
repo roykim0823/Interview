@@ -19,8 +19,6 @@ void compress(string &str) {
     int cnt=1;
 	int idx=0;
 
-
-
 	for (int i=1; i<str.size(); i++)  {
 		if(str[i] == prev)	// Found repeated char  
 			cnt++;

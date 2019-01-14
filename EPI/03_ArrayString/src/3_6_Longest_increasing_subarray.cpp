@@ -17,7 +17,7 @@ using std::vector;
 
 // @include
 pair<int, int> find_longest_increasing_subarray(const vector<int> &A) {
-  int max_len = 1;
+  int max_len = 1;	// each element is a minimum increasing subarray
   pair<int, int> ans(0, 0);
   int i = 0;
   while (i < A.size()) {
@@ -51,10 +51,20 @@ void simple_test() {
   assert(ans.first == 0 && ans.second == 1);
 }
 
+template<typename T>
+void print(vector<T> vec, int beg=0, int end=0) {
+	//for(auto v : vec) {
+	if(end==0) end=vec.size();
+	for(int i=beg; i<end; i++) {
+		cout << vec[i] << " ";
+	}
+	cout << endl;
+}
+
 int main(int argc, char *argv[]) {
   simple_test();
   default_random_engine gen((random_device())());
-  for (int times = 0; times < 1000; ++times) {
+  for (int times = 0; times < 10; ++times) {
     vector<int> A;
     if (argc > 2) {
       for (size_t i = 1; i < argc; ++i) {
@@ -65,7 +75,8 @@ int main(int argc, char *argv[]) {
       if (argc == 2) {
         n = atoi(argv[1]);
       } else {
-        uniform_int_distribution<int> dis(1, 1000000);
+        //uniform_int_distribution<int> dis(1, 1000000);
+        uniform_int_distribution<int> dis(1, 20);
         n = dis(gen);
       }
       uniform_int_distribution<int> pos_or_neg(0, 1);
@@ -73,17 +84,10 @@ int main(int argc, char *argv[]) {
       for (int i = 0; i < n; ++i) {
         A.emplace_back((pos_or_neg(gen) ? -1 : 1) * dis(gen));
       }
-    }
-    pair<int, int> result = find_longest_increasing_subarray(A);
-    cout << result.first << ' ' << result.second << endl;
-    int len = 1;
-    for (int i = 1; i < A.size(); ++i) {
-      if (A[i] > A[i - 1]) {
-        ++len;
-      } else {
-        len = 1;
-      }
-      assert(len <= result.second - result.first + 1);
+    	pair<int, int> result = find_longest_increasing_subarray(A);
+		print(A);
+    	cout << result.first << ' ' << result.second << " -> " ;
+		print(A, result.first, result.second+1);
     }
   }
   return 0;

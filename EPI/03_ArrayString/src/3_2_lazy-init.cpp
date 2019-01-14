@@ -18,6 +18,7 @@ class Array {
     return false;
   }
 
+	// i is index, v is data
   void write(size_t i, const ValueType& v) {
     if (!isValid(i)) {
       S_[t_] = i;
@@ -26,13 +27,17 @@ class Array {
     A_[i] = v;
   }
 
+  size_t size() { return N; }
+
  private:
   bool isValid(size_t i) const {
     return (0 <= P_[i] && P_[i] < t_ && S_[P_[i]] == i);
   }
 
   ValueType A_[N];
-  int P_[N], S_[N], t_ = 0;
+  int P_[N];	// store time  
+  int S_[N];    // backpointer, store index
+  int t_ = 0;   // time
 };
 // @exclude
 
