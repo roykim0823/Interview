@@ -13,29 +13,35 @@ using std::random_device;
 using std::stack;
 using std::uniform_int_distribution;
 
+// transfer (move) a disk from "from" to "to" using "use" as a buffer
 void transfer(int n, array<stack<int>, 3>& pegs, int from, int to, int use);
 
-// @include
 void move_tower_hanoi(int n) {
   array<stack<int>, 3> pegs;
+  
   // Initialize pegs.
   for (int i = n; i >= 1; --i) {
     pegs[0].push(i);
   }
 
-  transfer(n, pegs, 0, 1, 2);
+  // start!
+  transfer(n, pegs, 0, 2, 1);
 }
 
 void transfer(int n, array<stack<int>, 3>& pegs, int from, int to, int use) {
   if (n > 0) {
+	// Move top n-1 disks from 0 to 1 using 2
     transfer(n - 1, pegs, from, use, to);
+	
+	// Move top from 0 to 2
+	cout << "Move disk " << pegs[from].top() <<" from peg " << from << " to peg " << to << endl;
     pegs[to].push(pegs[from].top());
     pegs[from].pop();
-    cout << "Move from peg " << from << " to peg " << to << endl;
-    transfer(n - 1, pegs, use, to, from);
+    
+	// Move top n-1 disks from 2 to 1 using 0 as a buffer
+	transfer(n - 1, pegs, use, to, from);
   }
 }
-// @exclude
 
 int main(int argc, char* argv[]) {
   int n;
