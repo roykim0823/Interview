@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-#define Q	5	// The number of queens and the size of board (QxQ)
+#define Q	4	// The number of queens and the size of board (QxQ)
 
 void print(int *c, int n){
     for(int i=0; i<n; ++i){
@@ -43,7 +43,7 @@ void search(int r, int *c, int n, int &cnt){
     }
 }
 int main(){
-	int c[Q];	// Each queens position c[row]=col
+	int c[Q];	// Each queens position (row, c[row]==col)
 	int cnt=0;
 
     search(0, c, Q, cnt);

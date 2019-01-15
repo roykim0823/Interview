@@ -35,6 +35,7 @@ void online_median(istringstream* sin) {
     } else {
       L.emplace(x);
     }
+	// The size different between L and H <= 1
     if (H.size() > L.size() + 1) {
       L.emplace(H.top());
       H.pop();
