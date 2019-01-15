@@ -6,8 +6,8 @@
 #include <random>
 #include <vector>
 
-#include "./Longest_nondecreasing_subsequence_n2.h"
-#include "./Longest_nondecreasing_subsequence_nlogn.h"
+#include "Longest_nondecreasing_subsequence_n2.h"
+#include "Longest_nondecreasing_subsequence_nlogn.h"
 
 using std::cout;
 using std::default_random_engine;
