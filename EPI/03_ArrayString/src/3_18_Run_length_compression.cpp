@@ -8,11 +8,11 @@
 #include <string>
 
 using std::cout;
+using std::cerr;
 using std::endl;
 using std::string;
 using std::stringstream;
 
-// @include
 string decoding(const string &s) {
   int count = 0;
   string ret;
@@ -34,14 +34,50 @@ string encoding(const string &s) {
     if (s[i] == s[i - 1]) {
       ++count;
     } else {
-      ss << count << s[i - 1];
-      count = 1;
+      ss << count << s[i - 1];	// insert count and a character
+      count = 1;               	// update the last character
     }
   }
   ss << count << s.back();
   return ss.str();
 }
-// @exclude
+
+// auxiliary function
+string numToString(int num) {
+	string num_str;
+	char digit; 
+	int num_digit;
+
+	while(true) {
+		// each digit at a time
+		num_digit = num%10;
+		switch(num_digit) {
+			case 0: digit = '0'; break;
+			case 1: digit = '1'; break;
+			case 2: digit = '2'; break;
+			case 3: digit = '3'; break;
+			case 4: digit = '4'; break;
+			case 5: digit = '5'; break;
+			case 6: digit = '6'; break;
+			case 7: digit = '7'; break;
+			case 8: digit = '8'; break;
+			case 9: digit = '9'; break;
+			default:
+				cerr << "Error" << endl;
+				break;
+		}
+		num -= num_digit;
+		num_str = digit+num_str;
+		if(num==0)
+			break;
+		// remove each digit value;
+		num /= 10;
+	}
+	return num_str;
+}
+
+
+
 
 int main(int argc, char *argv[]) {
   if (argc == 3) {
