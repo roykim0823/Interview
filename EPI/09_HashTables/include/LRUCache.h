@@ -39,9 +39,9 @@ public:
 				dq.pop_back();
 				ma.erase(last);
 			}
-		} else {
+		} else {	// present in cache
 			// present in cache
-			dq.erase(ma[x]);
+			dq.erase(ma[x]);	// relocate it to the front
 		}
 
 		// update the reference

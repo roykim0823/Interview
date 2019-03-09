@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
 	
 	for(auto vec : data) {
 		ca.read(vec);
+		cout << "READ " << vec << endl;
 		ca.print();
 	}
 	
