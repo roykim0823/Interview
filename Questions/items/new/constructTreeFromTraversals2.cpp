@@ -73,6 +73,39 @@ std::unique_ptr<btNode<T>> constructTree(T in[], T aux[], int n, bool preOrder=t
 	return buildTree(in, aux, 0, n-1, pIndex, hash, preOrder);
 }
 
+// Another apporach with inOrder and preOrder
+template <typename T>
+std::unique_ptr<btNode<T>> buildTree2(T in[], T pre[], int n) {
+	std::set<unique_ptr<btNode<T>> set_rightTree;
+	std::stack<unique_ptr<btNode<T>> stack_leftTree;
+
+	std::unique_ptr<btNode<T>> root = nullptr;
+	for(int preIdx=0, inIdx=0; preIdx < n) {
+		std::unique_ptr<btNode<T>> node = nullptr;
+		do {
+			node = new_bt_Node<T>(pre[preIdx]);
+			if(root == nullptr)
+				root = node;
+			if(!stack.empty()) {
+				if(set.find(stack.top()) != set.end()) {
+					set.remove(stack.top());
+					stack.top().r = node;
+					stack.pop();
+				} else {
+					stack.top().l = node;
+				}
+			}
+			stack.push(node);
+		} while (pre[preIdx++] != in[inIdx] && preIdx < n);
+
+		node = nullptr;
+		while(!stack_leftTree.empty() && inIdx < n && stack_leftRee.top().
+
+
+
+
+	
+
 /* Driver program to test above functions */
 int main() 
 { 
