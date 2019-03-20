@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 
  
  	// extensive tests
+	/*
   	vector<int> S;
   	if (argc >= 2) {
     	for (int i = 1; i < argc; ++i) {
@@ -48,6 +49,7 @@ int main(int argc, char* argv[])
 	for(auto iter = power_sets.begin(); iter != power_sets.end(); ++iter) {
 		print_vec(*iter);
 	}
+	*/
 	return 0;
 }
 

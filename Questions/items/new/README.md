@@ -11,8 +11,9 @@ ex) even if three of them (preorder, postorder, and level-order)
 # Construct Tree from given Inorder and Preorder traversals
 Let us consider the below traversals:
 
-Inorder sequence: D B E A F C
-Preorder sequence: A B D E C F
+Inorder sequence: 	D B E A F C
+Preorder sequence: 	A B D E C F
+Postorder sequence: D E B F C A
 
 In a Preorder sequence, leftmost element is the root of the tree. 
 So we know ‘A’ is root for given sequences. 
