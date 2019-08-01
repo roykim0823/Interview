@@ -3,6 +3,7 @@
 
 using std::invalid_argument;
 
+// Swapping the first two consecutive bits that differs.
 unsigned long long ClosestIntSameBitCount(unsigned long long x) {
   const static int kNumUnsignedBits = 64;
   for (int i = 0; i < kNumUnsignedBits - 1; ++i) {
