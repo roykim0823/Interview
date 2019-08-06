@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++1z -g -Wall  -rdynamic CMakeFiles/3_20_substringSearch.dir/src/3_20_substringSearch.cpp.o  -o 3_20_substringSearch 

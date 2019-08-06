@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/roy/programming/Interview/bak/EPI/03_ArrayString/src/3_19_Reverse_words.cpp
+algorithm
+-
+cassert
+-
+iostream
+-
+random
+-
+string
+-
+

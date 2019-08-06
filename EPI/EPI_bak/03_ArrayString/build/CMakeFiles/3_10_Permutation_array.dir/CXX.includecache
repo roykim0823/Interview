@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/roy/programming/Interview/bak/EPI/03_ArrayString/src/3_10_Permutation_array.cpp
+algorithm
+-
+cassert
+-
+iostream
+-
+iterator
+-
+random
+-
+vector
+-
+

@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++1z -g -Wall  -rdynamic CMakeFiles/3_19_Reverse_words.dir/src/3_19_Reverse_words.cpp.o  -o 3_19_Reverse_words 

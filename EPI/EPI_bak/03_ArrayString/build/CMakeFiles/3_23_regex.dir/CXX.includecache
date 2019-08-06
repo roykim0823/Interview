@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/roy/programming/Interview/bak/EPI/03_ArrayString/src/3_23_regex.cpp
+cassert
+-
+iostream
+-
+string
+-
+
