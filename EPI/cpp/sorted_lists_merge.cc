@@ -18,6 +18,7 @@ shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
   return dummy_head->next;
 }
 
+// AppendNode and Advance
 void AppendNode(shared_ptr<ListNode<int>> *node,
                 shared_ptr<ListNode<int>> *tail) {
   (*tail)->next = *node;

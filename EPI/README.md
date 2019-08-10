@@ -13,4 +13,6 @@
 3.1 dutch\_national\_flag.cc
 3.6 longest\_increasing\_subarray.cc
 
-## Chapter 4. Linked Lists
+## Chapter 4. Linked Lists (CCI 02)
+4.1 sorted\_lists\_merge.cc
+
