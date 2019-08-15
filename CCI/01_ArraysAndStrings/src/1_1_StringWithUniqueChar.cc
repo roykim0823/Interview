@@ -13,6 +13,7 @@
 
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 using namespace std;
@@ -21,12 +22,8 @@ bool isUniqueChars_ver1(string str) {
 	if(str.size() > 256 )
 		return false;
 	
-	//bool charSet[256];
-	bool *charSet = new bool[256]();	// declare and initialize
-	// Initialize charSet
-	//for(int i=0; i < 256; ++i)
-	//	charSet[i] = false;
-
+	std::unique_ptr<char []> bool (new char[256]());  // declare and initialize
+	
 	for(int i=0; i != str.size(); ++i) 
 	{
 		int val = (int)str[i];
@@ -34,8 +31,6 @@ bool isUniqueChars_ver1(string str) {
 			return false;
 		charSet[val] = true;
 	}
-
-	delete [] charSet;
 	return true;
 }
 
