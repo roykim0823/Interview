@@ -22,7 +22,30 @@ vector<vector<int>> GeneratePowerSet(const vector<int>& input_set) {
   return power_set;
 }
 
-// clang-format off
+// Find all factors of the product of a given list of numbers (or primes)
+// ex) {2, 3, 7} -> 1, 2, 3, 6, 7, 14, 21, 42
+// modify the generate_power_set
+vector<int> factors(const vector<int> &S) {
+  vector<int> products;
+  for(int i=0; i< ( 1<< S.size()); ++i) { // 1<<S.size() = 2^S.size()
+    int x=i;
+    int product = 1;
+    bool one=false;
+    while (x) {
+      int idx = log2( x & ~(x-1));  // log2(the right most set bit)
+      if(S[idx]==1) {               // '1' is element then skip the product calculation
+        one=true;
+        break;;
+      }
+      product *= S[idx];  // calcuate the product
+      x &= x-1;           // x = x with the right most '1' is cleared
+    }
+    if(one==false)
+      products.push_back(product);
+  }
+  return products;
+}
+
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"input_set"};

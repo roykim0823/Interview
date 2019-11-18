@@ -9,6 +9,13 @@
 using std::accumulate;
 using std::string;
 
+
+// Integer to String
+// 1. for positive integer x:
+//   - divide x by 10 iteratively, and record the remainder till we get to 0
+//   - It yields the result from the LSB, and needs to be reverse!
+// 2. for negative integer x
+//   - calculate -x (positive) and add '-'
 string IntToString(int x) {
   bool is_negative = false;
   if (x < 0) {
@@ -43,7 +50,7 @@ int StringToInt_ORI(const string &s) {
     throw std::invalid_argument("illegal input");
   }
 
-  bool is_negative= s[0] == '-';
+  bool is_negative = (s[0] == '-');
   int x=0;
 
   for(size_t i=is_negative; i<s.size(); ++i) {  // is_negative to skip the '-' character

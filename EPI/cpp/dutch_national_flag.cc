@@ -16,21 +16,21 @@ void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
   Color pivot = A[pivot_index];
   /**
    * Keep the following invariants during partitioning:
-   * bottom group: A[0, smaller - 1].
-   * middle group: A[smaller, equal - 1].
-   * unclassified group: A[equal, larger - 1].
-   * top group: A[larger, size(A) - 1].
+   * bottom group: A[0, Lo - 1].
+   * middle group: A[Lo, Mid - 1].
+   * unclassified group: A[Mid, Hi].
+   * top group: A[Hi+1, size(A) - 1].
    */
-  int smaller = 0, equal = 0, larger = size(A);
+  int lo = 0, mid = 0, hi = size(A)-1;
   // Keep iterating as long as there is an unclassified element.
-  while (equal < larger) {
+  while (mid <= hi) {
     // A[equal] is the incoming unclassified element.
-    if (A[equal] < pivot) {
-      swap(A[smaller++], A[equal++]);
-    } else if (A[equal] == pivot) {
-      ++equal;
+    if (A[mid] < pivot) {
+      swap(A[lo++], A[mid++]);
+    } else if (A[mid] == pivot) {
+      ++mid;
     } else {  // A[equal] > pivot.
-      swap(A[equal], A[--larger]);
+      swap(A[mid], A[hi--]);
     }
   }
 }

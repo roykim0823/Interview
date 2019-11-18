@@ -11,10 +11,21 @@ int SSDecodeColID(const string& col) {
   });
 }
 
+int ssDecodeColID(const string& col) {
+  int ret = 0;
+  for (const char& c : col) {
+    ret = ret * 26 + c - 'A' + 1;
+  }
+  return ret;
+}
+
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"col"};
-  return GenericTestMain(args, "spreadsheet_encoding.cc",
+  GenericTestMain(args, "spreadsheet_encoding.cc",
                          "spreadsheet_encoding.tsv", &SSDecodeColID,
+                         DefaultComparator{}, param_names);
+  GenericTestMain(args, "spreadsheet_encoding.cc",
+                         "spreadsheet_encoding.tsv", &ssDecodeColID,
                          DefaultComparator{}, param_names);
 }
