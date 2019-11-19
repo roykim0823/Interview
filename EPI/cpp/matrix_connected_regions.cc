@@ -3,6 +3,7 @@
 #include <queue>
 #include <utility>
 #include <vector>
+#include <array>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
@@ -13,6 +14,7 @@ using std::make_pair;
 using std::pair;
 using std::queue;
 using std::vector;
+using std::array;
 
 void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   vector<deque<bool>>& image = *image_ptr;
@@ -36,6 +38,32 @@ void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   }
 }
 
+void FlipColor2(int x, int y, vector<deque<bool>>* image_ptr) {
+  vector<deque<bool>>& image = *image_ptr;
+  const bool color = image[x][y];
+  // neighbor nodes
+  const array<array<int, 2>, 4> dir = {-1, 0, 1, 0, 0, -1, 0, 1};  // WESN
+
+  queue<pair<int, int>> q;
+  image[x][y] = !color;  // Flips.
+  q.emplace(x, y);
+  while (!empty(q)) {
+    const auto [x, y] = q.front();
+    q.pop();
+    for (const auto& d : dir) {
+      auto next_x = x + d[0];
+      auto next_y = y + d[1];
+      if (next_x >= 0 && next_x < size(image) && next_y >= 0 &&
+          next_y < size(image[next_x]) && image[next_x][next_y] == color) {
+        // Flips the color.
+        image[next_x][next_y] = !color;
+        q.emplace(next_x, next_y);
+      }
+    }
+  }
+}
+
+
 vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
                                      vector<vector<int>> image) {
   vector<deque<bool>> b;
@@ -49,7 +77,7 @@ vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
     b.push_back(tmp);
   }
 
-  executor.Run([&] { FlipColor(x, y, &b); });
+  executor.Run([&] { FlipColor2(x, y, &b); });
 
   image.resize(b.size());
 
