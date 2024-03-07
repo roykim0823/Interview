@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++1z -g -Wall  -rdynamic CMakeFiles/3_6_Longest_increasing_subarray.dir/src/3_6_Longest_increasing_subarray.cpp.o  -o 3_6_Longest_increasing_subarray 

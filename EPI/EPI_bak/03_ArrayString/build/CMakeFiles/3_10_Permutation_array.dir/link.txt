@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++1z -g -Wall  -rdynamic CMakeFiles/3_10_Permutation_array.dir/src/3_10_Permutation_array.cpp.o  -o 3_10_Permutation_array 

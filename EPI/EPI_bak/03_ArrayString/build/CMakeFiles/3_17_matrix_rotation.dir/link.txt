@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++1z -g -Wall  -rdynamic CMakeFiles/3_17_matrix_rotation.dir/src/3_17_matrix_rotation.cpp.o  -o 3_17_matrix_rotation 
