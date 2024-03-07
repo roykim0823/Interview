@@ -9,7 +9,7 @@ Checks:
 */
 
 #include <iostream>
-#include <malloc.h>
+#include <stdlib.h>
 using namespace std;
 
 // Create a one-diminsional array of pointers. Then, for each array index, we create a new one-dimensional
